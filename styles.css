@@ -775,16 +775,26 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
 }
 
 .card {
     background-color: white;
     padding: 10px;
+    padding-bottom: 5vh;
     margin: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 200px;
+    max-width: 240px;
+    height: 100%;
+    max-height: 55vh;
+    transition: all 0.3s;
+    margin-bottom: 0;
+}
+
+.card:hover {
+    transform: scale(1.15);
 }
 
 .card img {
@@ -805,23 +815,54 @@
     margin-bottom: 0;
 }
 
+/* resaltado de cards */
+.card.highlight {
+    border: 3px solid rgb(94, 255, 94);
+}
+
+.fecha {
+    padding: 5px;
+    border-radius: 5px;
+    color: rgb(54, 54, 54);
+}
+
+.fecha.pasado {
+    background-color: rgba(255, 104, 104, 0.431);
+    border: 1px solid rgb(255, 104, 104);
+}
+
+.fecha.proximo {
+    background-color: rgba(94, 169, 255, 0.422);
+    border: 1px solid rgb(94, 169, 255);
+}
+
+.fecha.hoy {
+    background-color: rgba(185, 255, 128, 0.665);
+    border: 1px solid rgb(147, 254, 147);
+}
+
+
+
+
 
 /*----carousel---------------------*/
 .container.cumpleaneros {
-    /* border: 1px solid red; */
+    /* border: 2px solid red; */
     background: url("image/bg.jpg") #030728 no-repeat center;
     /* border: 1px solid red; */
     height: 100%;
     width: 100%;
-    max-height: 13rem;
-    max-width: 72.5rem;
+    max-height: 15rem;
+    max-width: 85.5rem;
     /* margin: 12vh auto; */
-    position: relative;
-    /* align-items: flex-end; */
+    position: absolute;
+    align-items: flex-end;
     right: 0;
     left: 0;
+    bottom: 0;
     margin: 0;
     margin-right: 0;
+    margin-bottom: 0;
     /* color: rgb(0, 255, 242); */
 }
 
@@ -829,7 +870,8 @@
     /* border: 1px solid rgb(85, 253, 79); */
     overflow: hidden;
     max-width: 1200px;
-    margin: 15px 70px 55px;
+    padding: 17px;
+    margin: 5px 70px;
 }
 
 .card-list .card-item {
@@ -838,7 +880,10 @@
     user-select: none;
     /* padding: 35px; */
     padding: 5px;
-    height: 50%;
+    height: 100%;
+    width: 100%;
+    max-height: 30vh;
+    max-width: 45vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -848,6 +893,12 @@
     background: rgba(255, 255, 255, 0.2);
     /* background: rgba(255, 255, 255, 0.651); */
     border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s;
+
+}
+
+.card-list .card-item:hover {
+    transform: scale(1.15);
 }
 
 .card-list .card-item .user-image {
