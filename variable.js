@@ -2,10 +2,15 @@
 
 // scripts.js
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // Función para convertir el mes en número a las tres primeras letras del mes
+    function obtenerMesAbreviado(mes) {
+        const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        return meses[mes - 1];
+    }
 
     // Función para crear una card
     function createCard(empleado, isCumpleaneroDia) {
-        
         const card = document.createElement('div');
         card.className = 'card';
         
@@ -14,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const img = document.createElement('img');
-        img.src = `fotos/${empleado.id}.jpg`; // Asumiendo que la foto tiene el mismo ID que el empleado
+        img.src = `fotos/${empleado.id}`; // Acepta cualquier formato de foto
         card.appendChild(img);
         
         const nombre = document.createElement('h2');
@@ -31,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const fechaNacimiento = document.createElement('p');
         const [anio, mes, dia] = empleado.fechaNacimiento.split('-');
-        const fechaTexto = `Fecha de Nacimiento: ${dia}/${mes}`;
+        const fechaTexto = `Fecha de Nacimiento: ${dia}/${obtenerMesAbreviado(mes)}`;
         const fechaSpan = document.createElement('span');
         fechaSpan.className = 'fecha';
 
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mostrar los cumpleañeros de la semana y de la próxima semana
+    // Mostrar los cumpleañeros pasados, de la semana y de la próxima semana en el carrusel
     const carouselSemana = document.getElementById('carousel-semana');
     cumpleanerosSemana.forEach(empleado => {
         const card = createCard(empleado, false);
