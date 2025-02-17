@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const fechaNacimiento = document.createElement('p');
         const [anio, mes, dia] = empleado.fechaNacimiento.split('-');
-        const fechaTexto = `Fecha de Nacimiento: ${dia}/${obtenerMesAbreviado(mes)}`;
+        const fechaTexto = `Cumpleaño: ${dia}/${obtenerMesAbreviado(mes)}`;
         const fechaSpan = document.createElement('span');
         fechaSpan.className = 'fecha';
 
