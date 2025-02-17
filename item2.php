@@ -229,12 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
     card.appendChild(semana);
 
     // añade un parrafo p con fecha de nacimiento
-    const fechaNacimiento = document.createElement('button');
+    const fechaNacimiento = document.createElement('p');
     const [anio, mes, dia] = empleado.fechaNacimiento.split('-');
     const fechaTexto = `Cumpleaño: ${dia}/${obtenerMesAbreviado(mes)}`;
     const fechaSpan = document.createElement('span');
-    fechaSpan.className = 'fecha';
-    fechaNacimiento.className = 'message-button';
+    fechaSpan.className = 'fechacarousel';
+    // fechaNacimiento.className = 'message-button';
 
     // Crear fechas para comparación
     const fechaNacimientoDate = new Date();
@@ -255,8 +255,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         fechaSpan.textContent = fechaTexto;
-        fechaNacimiento.appendChild(fechaSpan);
-        card.appendChild(fechaNacimiento);
+        // fechaNacimiento.appendChild(fechaSpan);
+        card.appendChild(fechaSpan);
         
         return card;
     }

@@ -827,20 +827,30 @@
 .fecha {
     padding: 5px;
     border-radius: 5px;
-    color: rgb(54, 54, 54);
+    color: rgb(46, 46, 46);
 }
 
-.fecha.pasado {
+
+.fechacarousel {
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.fecha.pasado,
+.fechacarousel.pasado {
     background-color: rgba(255, 104, 104, 0.431);
     border: 1px solid rgb(255, 104, 104);
 }
 
-.fecha.proximo {
+.fecha.proximo,
+.fechacarousel.proximo {
     background-color: rgba(94, 169, 255, 0.422);
     border: 1px solid rgb(94, 169, 255);
 }
 
-.fecha.hoy {
+.fecha.hoy,
+.fechacarousel.hoy {
     background-color: rgba(185, 255, 128, 0.665);
     border: 1px solid rgb(147, 254, 147);
 }
@@ -851,7 +861,7 @@
 
 /*----carousel---------------------*/
 .container.cumpleaneros {
-    border: 2px solid red;
+    /* border: 2px solid red; */
     background: url("image/bg.jpg") #030728 no-repeat center;
     /* border: 1px solid red; */
     height: 100%;
@@ -871,7 +881,7 @@
 }
 
 .slider-wrapper {
-    border: 1px solid rgb(85, 253, 79);
+    /* border: 1px solid rgb(85, 253, 79); */
     overflow: hidden;
     max-width: 1200px;
     padding: 17px;
@@ -888,7 +898,7 @@
 }
 
 .card-list {
-    border: 2px solid rgb(79, 201, 253);
+    /* border: 2px solid rgb(79, 201, 253); */
     margin-top: 0;
 }
 
