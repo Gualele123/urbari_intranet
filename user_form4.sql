@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 11-02-2025 a las 17:47:16
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.1.17
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 18-02-2025 a las 22:56:25
+-- Versión del servidor: 11.3.2-MariaDB
+-- Versión de PHP: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,12 +27,15 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `archivo`
 --
 
-CREATE TABLE `archivo` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `archivo`;
+CREATE TABLE IF NOT EXISTS `archivo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `area_id` int(11) DEFAULT NULL,
   `nombre_archivo` varchar(255) NOT NULL,
-  `ruta_archivo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ruta_archivo` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `area_id` (`area_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `archivo`
@@ -49,10 +52,12 @@ INSERT INTO `archivo` (`id`, `area_id`, `nombre_archivo`, `ruta_archivo`) VALUES
 -- Estructura de tabla para la tabla `area`
 --
 
-CREATE TABLE `area` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS `area`;
+CREATE TABLE IF NOT EXISTS `area` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `area`
@@ -76,14 +81,16 @@ INSERT INTO `area` (`id`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `comunicados`
 --
 
-CREATE TABLE `comunicados` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `comunicados`;
+CREATE TABLE IF NOT EXISTS `comunicados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(255) NOT NULL,
   `descripcion` text NOT NULL,
   `fecha` datetime NOT NULL,
   `autor` varchar(255) NOT NULL,
-  `imagen` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `imagen` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `comunicados`
@@ -104,13 +111,16 @@ INSERT INTO `comunicados` (`id`, `titulo`, `descripcion`, `fecha`, `autor`, `ima
 -- Estructura de tabla para la tabla `contactos`
 --
 
-CREATE TABLE `contactos` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `contactos`;
+CREATE TABLE IF NOT EXISTS `contactos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `foto` blob NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `contacto` varchar(255) NOT NULL,
-  `id_area` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_area` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_area` (`id_area`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `contactos`
@@ -131,32 +141,108 @@ INSERT INTO `contactos` (`id`, `foto`, `nombre`, `contacto`, `id_area`) VALUES
 -- Estructura de tabla para la tabla `empleado`
 --
 
-CREATE TABLE `empleado` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `empleado`;
+CREATE TABLE IF NOT EXISTS `empleado` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   `fechaNacimiento` date DEFAULT NULL,
   `appaterno` varchar(255) DEFAULT NULL,
-  `apmaterno` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `apmaterno` varchar(255) DEFAULT NULL,
+  `area` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `empleado`
 --
 
-INSERT INTO `empleado` (`id`, `nombre`, `fechaNacimiento`, `appaterno`, `apmaterno`) VALUES
-(1, 'Alexander', '1997-10-18', 'Aguirre', 'Paz'),
-(2, 'Juan', '2000-04-14', 'Flores', 'Manaca'),
-(3, 'Mauricio', '1997-06-16', 'Reyes', 'Ortiz'),
-(4, 'Wilson', '2003-04-15', 'Osorio', 'Fuentes'),
-(5, 'Victor', '1997-06-24', 'Mendez', 'Orellana'),
-(6, 'Paola', '2004-07-04', 'Guerra', 'Choque'),
-(7, 'Carla', '1988-10-05', 'Paz', 'Mamani'),
-(8, 'Shirley', '1978-12-18', 'Choque', 'Vaca'),
-(9, 'Francisco', '1992-03-26', 'Pereira', 'Soleto'),
-(10, 'Julio', '0000-00-00', 'Cruz', 'Camacho'),
-(11, 'Darwin', '1995-01-28', 'Ocampo', 'Arce'),
-(12, 'Pedro', '1988-10-06', 'Paz', 'Romero'),
-(13, 'Maria', '1989-11-10', 'Mamani', 'Franco');
+INSERT INTO `empleado` (`id`, `nombre`, `fechaNacimiento`, `appaterno`, `apmaterno`, `area`) VALUES
+(1, 'Alexander', '1997-02-12', 'Aguirre', 'Paz', 'sistema'),
+(2, 'Juan', '2000-02-10', 'Flores', 'Manaca', 'rrhh'),
+(3, 'Mauricio', '1997-02-12', 'Reyes', 'Ortiz', 'contabilidad'),
+(4, 'Wilson', '2003-02-13', 'Osorio', 'Fuentes', 'sistema'),
+(5, 'Victor', '1997-02-13', 'Mendez', 'Orellana', 'tesoreria'),
+(6, 'Paola', '2004-02-11', 'Guerra', 'Choque', 'logistica'),
+(7, 'Carla', '1988-02-10', 'Paz', 'Mamani', 'sistema'),
+(8, 'Shirley', '1978-03-05', 'Choque', 'Vaca', 'sistema'),
+(9, 'Francisco', '1992-02-17', 'Pereira', 'Soleto', 'rrhh'),
+(10, 'Julio', '1990-02-17', 'Cruz', 'Camacho', 'rrhh'),
+(11, 'Darwin', '1995-03-02', 'Ocampo', 'Arce', 'contabilidad'),
+(12, 'Pedro', '1988-03-01', 'Paz', 'Romero', 'contabilidad'),
+(13, 'Maria', '1989-02-17', 'Mamani', 'Franco', 'sistema'),
+(14, 'Diego', '2000-02-24', 'Uriona', 'Ortiz', 'sistema'),
+(15, 'Rosa', '1998-02-17', 'Pochi', 'Cruz', 'rrhh'),
+(16, 'Paul', '1988-02-26', 'Reyes', 'Vaca', 'contabilidad'),
+(17, 'Carla', '1991-02-21', 'Ortiz', 'Paz', 'caja'),
+(18, 'Wilson', '1998-02-14', 'Flores', 'Choque', 'caja'),
+(19, 'Mauricio', '1997-02-25', 'Quiroz', 'Daza', 'spa'),
+(20, 'Griselda', '1977-02-15', 'Garcia', 'Tenorio', 'spa'),
+(21, 'Karen', '2001-02-18', 'Hinojosa', 'Osorio', 'sistema'),
+(22, 'Jorge', '1990-02-16', 'Ruiz', 'Fernandez', 'sistema');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permisos`
+--
+
+DROP TABLE IF EXISTS `permisos`;
+CREATE TABLE IF NOT EXISTS `permisos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `modulo` varchar(255) NOT NULL,
+  `permiso` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `permisos`
+--
+
+INSERT INTO `permisos` (`id`, `modulo`, `permiso`) VALUES
+(1, 'usuarios', 'ver');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_type` varchar(255) NOT NULL,
+  `descripcion` text NOT NULL,
+  `estado` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `user_type`, `descripcion`, `estado`, `created_at`) VALUES
+(4, 'colaborador', 'algunos permisos', 'activo', '2025-02-18 22:31:16'),
+(3, 'admin', 'todos los permisos', 'inactivo', '2025-02-18 19:34:55'),
+(5, 'rrhh', 'pocos permisos', 'activo', '2025-02-18 22:39:24'),
+(6, 'usuario normal', 'solo ver', 'activo', '2025-02-18 22:39:41');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles_permisos`
+--
+
+DROP TABLE IF EXISTS `roles_permisos`;
+CREATE TABLE IF NOT EXISTS `roles_permisos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `permiso_id` int(11) NOT NULL,
+  `valor` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`),
+  KEY `permiso_id` (`permiso_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -164,13 +250,16 @@ INSERT INTO `empleado` (`id`, `nombre`, `fechaNacimiento`, `appaterno`, `apmater
 -- Estructura de tabla para la tabla `servicios`
 --
 
-CREATE TABLE `servicios` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `servicios`;
+CREATE TABLE IF NOT EXISTS `servicios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `imagen` varchar(255) NOT NULL DEFAULT 'default_servicio.jpg',
   `tipo_servicio_id` int(11) NOT NULL,
   `servicio` varchar(255) NOT NULL,
-  `precio` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `precio` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tipo_servicio_id` (`tipo_servicio_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `servicios`
@@ -189,11 +278,13 @@ INSERT INTO `servicios` (`id`, `imagen`, `tipo_servicio_id`, `servicio`, `precio
 -- Estructura de tabla para la tabla `tipo_servicio`
 --
 
-CREATE TABLE `tipo_servicio` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `tipo_servicio`;
+CREATE TABLE IF NOT EXISTS `tipo_servicio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `imagen` varchar(255) NOT NULL DEFAULT 'default_tipo_servicio.jpg',
-  `tipo_servicio` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `tipo_servicio` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tipo_servicio`
@@ -222,131 +313,27 @@ INSERT INTO `tipo_servicio` (`id`, `imagen`, `tipo_servicio`) VALUES
 -- Estructura de tabla para la tabla `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `user_type` varchar(20) NOT NULL DEFAULT 'user',
-  `image` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `user_type` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_id` (`role_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `image`) VALUES
-(1, 'Mauricio Reyes', 'mau@gmail.com', '123', 'user', 'mifoto.png'),
-(2, 'mauricio reyes', 'mauri@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'admin', 'mau.png'),
-(3, 'administrador', 'admin@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', 'mau.jpg'),
-(4, 'Juan Flores', 'juanjose@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', 'user-1.jpg');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `archivo`
---
-ALTER TABLE `archivo`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `area_id` (`area_id`);
-
---
--- Indices de la tabla `area`
---
-ALTER TABLE `area`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `comunicados`
---
-ALTER TABLE `comunicados`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `contactos`
---
-ALTER TABLE `contactos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_area` (`id_area`);
-
---
--- Indices de la tabla `empleado`
---
-ALTER TABLE `empleado`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `servicios`
---
-ALTER TABLE `servicios`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tipo_servicio_id` (`tipo_servicio_id`);
-
---
--- Indices de la tabla `tipo_servicio`
---
-ALTER TABLE `tipo_servicio`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `archivo`
---
-ALTER TABLE `archivo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de la tabla `area`
---
-ALTER TABLE `area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT de la tabla `comunicados`
---
-ALTER TABLE `comunicados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT de la tabla `contactos`
---
-ALTER TABLE `contactos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `empleado`
---
-ALTER TABLE `empleado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT de la tabla `servicios`
---
-ALTER TABLE `servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `tipo_servicio`
---
-ALTER TABLE `tipo_servicio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `user_type`, `image`, `role_id`) VALUES
+(1, 'admin', 'admin@gmail.com', '202cb962ac59075b964b07152d234b70', 'admin', 'user-4.jpg', 2),
+(2, 'ana', 'ana@gmail.com', '202cb962ac59075b964b07152d234b70', 'colaborador', '8.jpg', NULL),
+(10, 'messi', 'messi@gmail.com', '202cb962ac59075b964b07152d234b70', 'user', '2.jpg', NULL);
 
 --
 -- Restricciones para tablas volcadas
