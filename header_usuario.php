@@ -5,12 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$admin_id = $_SESSION['admin_id'];
+$user_id = $_SESSION['user_id'];
 
-if (!isset($admin_id)) {
-   header('location:index.php');
+if (!isset($user_id)) {
+   header('location:login.php');
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -20,6 +21,7 @@ if (!isset($admin_id)) {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Pagina Admin</title>
    <link rel="stylesheet" href="styles.css">
+   <link rel="stylesheet" href="css/style.css">
    <link rel="icon" href="img/logo.png">
    <!-- libreria css externa swiper para carousel-->
    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"> -->
@@ -39,9 +41,9 @@ if (!isset($admin_id)) {
         <section class="contenedor-intranet">
         <?php
          $select_profile = $pdo->prepare("SELECT * FROM `users` WHERE id = ? ");
-         $select_profile->execute([$admin_id]);
+         $select_profile->execute([$user_id]);
          $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
-        ?> 
+        ?>  
             
             <!-- header -->
             <div class="seccion header-contenedor">

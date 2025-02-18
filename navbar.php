@@ -2,6 +2,13 @@
                   <li class="nav-item ">
                     <a class="nav-link tab_btn active" href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
                   </li>
+
+                  <li class="nav-item ">
+                    <a class="nav-link tab_btn" href="#"><i class="fa-solid fa-users"></i> Usuarios</a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link tab_btn" href="#"><i class="fa-solid fa-key"></i> Roles</a>
+                  </li>
                   <li class="nav-item ">
                     <a class="nav-link tab_btn" href="#"><i class="fa-solid fa-cake-candles"></i> Cumpleañeros</a>
                   </li>

@@ -11,8 +11,18 @@
                     <?php  include 'item1.php'; ?>
                 </div>
 
+               <!-- ADMIN USERS -->
+               <div class="item">
+                   <?php include 'admin_users.php'; ?>
+               </div>
+
+               <!-- ADMIN ROLES -->
+               <div class="item active">
+                   <?php include 'admin_roles.php'; ?>
+               </div>
+
                <!-- CUMPLEAÑEROS -->
-                <div class="item active">
+                <div class="item">
                     <?php  include 'item2.php'; ?>
                 </div>
 
@@ -39,5 +49,3 @@
 <?php
   include 'footer.php';
 ?>
-
-             

@@ -17,24 +17,32 @@ if (isset($_POST['submit'])) {
    $row = $select->fetch(PDO::FETCH_ASSOC);
 
    if($select->rowCount() > 0) {
-      
       if ($row['user_type'] == 'admin') {
-
-         $_SESSION['admin_id'] = $row['id'];
-         header('location:admin_page.php');
-
-      }elseif($row['user_type'] == 'user') {
-
-         $_SESSION['user_id'] = $row['id'];
-         header('location:user_page.php');
-
-      }else {
-         $message[] = 'usuario no encontrado!';
+  
+          $_SESSION['admin_id'] = $row['id'];
+          header('location:admin_page.php');
+  
+      } elseif($row['user_type'] == 'user') {
+  
+          $_SESSION['user_id'] = $row['id'];
+          header('location:user_page.php');
+  
+      } elseif($row['user_type'] == 'colaborador') {
+  
+          $_SESSION['colaborador_id'] = $row['id'];
+          header('location:colaborador_page.php');
+  
+      } elseif($row['user_type'] == 'recursos humanos') {
+  
+          $_SESSION['rh_id'] = $row['id'];
+          header('location:rh_page.php');
+          
+      } else {
+          $message[] = 'usuario no encontrado!';
       }
-
-   }else {
+  } else {
       $message[] = 'email o contraseña incorrecta!';
-   }
+  }
 
 
 
