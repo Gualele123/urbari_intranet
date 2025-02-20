@@ -32,6 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    echo "Permisos guardados correctamente";
+    // Redirigir de nuevo a la página de roles
+    header('Location: admin_roles.php');
+    exit();
+} else {
+    echo "Método de solicitud no permitido";
 }
 ?>

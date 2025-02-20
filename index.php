@@ -4,48 +4,44 @@ include 'config.php';
 session_start();
 
 if (isset($_POST['submit'])) {
-   //capturando datos desde el formulario
-   
+   // Capturando datos desde el formulario
    $name = $_POST['name'];
    $name = filter_var($name, FILTER_SANITIZE_STRING);
    $pass = md5($_POST['pass']);
    $pass = filter_var($pass, FILTER_SANITIZE_STRING);
 
-   //consulta
+   // Consulta
    $select = $pdo->prepare("SELECT * FROM `users` WHERE name = ? AND password = ?");
    $select->execute([$name, $pass]);
    $row = $select->fetch(PDO::FETCH_ASSOC);
 
    if($select->rowCount() > 0) {
       if ($row['user_type'] == 'admin') {
-  
-          $_SESSION['admin_id'] = $row['id'];
+          $_SESSION['role_type'] = 'admin';
+          $_SESSION['user_id'] = $row['id'];
           header('location:admin_page.php');
-  
+
       } elseif($row['user_type'] == 'user') {
-  
+          $_SESSION['role_type'] = 'user';
           $_SESSION['user_id'] = $row['id'];
           header('location:user_page.php');
-  
+
       } elseif($row['user_type'] == 'colaborador') {
-  
-          $_SESSION['colaborador_id'] = $row['id'];
+          $_SESSION['role_type'] = 'colaborador';
+          $_SESSION['user_id'] = $row['id'];
           header('location:colaborador_page.php');
-  
+
       } elseif($row['user_type'] == 'recursos humanos') {
-  
-          $_SESSION['rh_id'] = $row['id'];
+          $_SESSION['role_type'] = 'recursos humanos';
+          $_SESSION['user_id'] = $row['id'];
           header('location:rh_page.php');
           
       } else {
-          $message[] = 'usuario no encontrado!';
+          $message[] = 'Usuario no encontrado!';
       }
   } else {
-      $message[] = 'email o contraseña incorrecta!';
+      $message[] = 'Email o contraseña incorrecta!';
   }
-
-
-
 }
 ?>
 
@@ -59,6 +55,7 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- mi css -->
      <link rel="stylesheet" href="css/style.css">
+     <link rel="icon" href="img/logo.png">
 </head>
 <body>
    <?php
@@ -80,12 +77,11 @@ if (isset($_POST['submit'])) {
          </div>
          <h3>Iniciar Sesion</h3>
          
-         <input type="text" required placeholder="ingrese usuario" class="box" name="name">
-         <input type="password" required placeholder="ingrese contraseña" class="box" name="pass">
+         <input type="text" required placeholder="Ingrese usuario" class="box" name="name">
+         <input type="password" required placeholder="Ingrese contraseña" class="box" name="pass">
          <p>No tienes una cuenta? <a href="register.php">Registrarse</a></p>
          <input type="submit" value="Ingresar" class="btn" name="submit">
       </form>
-
    </section>
 </body>
 </html>

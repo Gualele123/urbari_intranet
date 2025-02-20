@@ -1,14 +1,13 @@
 <?php
 include 'config.php';
 
-
-if (session_status() === PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$user_id = $_SESSION['user_id'];
+$colaborador_id = $_SESSION['colaborador_id'];
 
-if (!isset($user_id)) {
+if (!isset($colaborador_id)) {
    header('location:index.php');
 }
 ?>
@@ -20,7 +19,7 @@ if (!isset($user_id)) {
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Pagina Admin</title>
+   <title>Pagina colaborador</title>
    <link rel="stylesheet" href="styles.css">
    <!-- <link rel="stylesheet" href="css/style.css"> -->
    <link rel="icon" href="img/logo.png">
@@ -42,7 +41,7 @@ if (!isset($user_id)) {
         <section class="contenedor-intranet">
         <?php
          $select_profile = $pdo->prepare("SELECT * FROM `users` WHERE id = ? ");
-         $select_profile->execute([$user_id]);
+         $select_profile->execute([$colaborador_id]);
          $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
         ?>  
             

@@ -10,8 +10,18 @@
 
 <!-- DASHBOARD -->
 <div class="item active">
-   <?php  include 'item1-user.php'; ?>
+   <?php  include 'item1.php'; ?>
 </div>
+
+<!-- CUMPLEAÑEROS -->
+<div class="item">
+    <?php  include 'item2.php'; ?>
+</div>
+
+<!-- COMUNICADOS -->
+ <div class="item">
+     <?php  include 'item3.php'; ?>
+ </div>
 
    
 

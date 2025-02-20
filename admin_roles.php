@@ -1,6 +1,8 @@
 <?php
 // include 'header.php';
 
+// admin_roles muestra el crud de roles registrados
+
 // Solo permitir acceso si el usuario es administrador
 if ($fetch_profile['user_type'] !== 'admin') {
     header('location:admin_page.php');
@@ -33,6 +35,11 @@ if (isset($_GET['delete'])) {
 
 $select_roles = $pdo->prepare("SELECT * FROM `roles`");
 $select_roles->execute();
+
+if ($select_roles === false) {
+    echo "Error en la consulta de selección de roles";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +49,6 @@ $select_roles->execute();
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Administrar Roles</title>
    <link rel="stylesheet" href="styles.css">
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -65,9 +71,9 @@ $select_roles->execute();
                     <td><?= $row['descripcion']; ?></td>
                     <td><?= $row['estado']; ?></td>
                     <td>
-                        <button class="btn" onclick="mostrarPermisos(<?= $row['id']; ?>)">Permisos</button>
-                        <button class="btn" onclick="editarRol(<?= $row['id']; ?>, '<?= $row['user_type']; ?>', '<?= $row['descripcion']; ?>', '<?= $row['estado']; ?>')">Editar</button>
-                        <a href="admin_roles.php?delete=<?= $row['id']; ?>" onclick="return confirm('¿Estás seguro de eliminar este rol?');" class="btn">Eliminar</a>
+                        <a title="Ver e ingresar permisos" href="manage_permissions.php?role_id=<?= $row['id']; ?>" class="btn btn-success"><i class="fa-solid fa-key"></i></a>
+                        <button title="Editar rol" class="btn btn-secondary" onclick="editarRol(<?= $row['id']; ?>, '<?= $row['user_type']; ?>', '<?= $row['descripcion']; ?>', '<?= $row['estado']; ?>')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <a title="Eliminar rol" href="admin_roles.php?delete=<?= $row['id']; ?>" onclick="return confirm('¿Estás seguro de eliminar este rol?');" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
                 <?php } ?>
@@ -81,33 +87,6 @@ $select_roles->execute();
             <input type="text" name="estado" placeholder="Estado" required>
             <button type="submit" name="create_role" class="btn">Crear Rol</button>
         </form>
-
-        <!-- Ventana Modal para Permisos -->
-        <div id="modalPermisos" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModalPermisos()">&times;</span>
-                <h2>Permisos del Rol</h2>
-                <form id="permisosForm">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Módulo</th>
-                                <th>Ver</th>
-                                <th>Crear</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="permisosBody">
-                            <!-- Permisos se cargarán aquí -->
-                        </tbody>
-                    </table>
-                    <input type="hidden" name="role_id" id="role_id">
-                    <button type="submit" class="btn">Guardar Permisos</button>
-                    <button type="button" class="btn" onclick="cerrarModalPermisos()">Cancelar</button>
-                </form>
-            </div>
-        </div>
 
         <!-- Ventana Modal para Editar Rol -->
         <div id="modalEditarRol" class="modal">
@@ -146,43 +125,6 @@ $select_roles->execute();
                     }
                 });
             });
-
-            // Manejar la asignación de permisos
-            $('#permisosForm').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: 'save_permissions.php',
-                    type: 'POST',
-                    data: formData,
-                    success: function(data) {
-                        alert(data);
-                        cerrarModalPermisos();
-                    }
-                });
-            });
-
-            // Funciones para abrir y cerrar el modal de permisos
-            window.mostrarPermisos = function(role_id) {
-                $('#role_id').val(role_id);
-
-                // Cargar permisos actuales
-                $.ajax({
-                    url: 'fetch_permissions.php',
-                    type: 'GET',
-                    data: { role_id: role_id },
-                    success: function(data) {
-                        $('#permisosBody').html(data);
-                        $('#modalPermisos').show();
-                    }
-                });
-            };
-
-            // Función para cerrar el modal de permisos
-            window.cerrarModalPermisos = function() {
-                $('#modalPermisos').hide();
-            };
 
             // Funciones para abrir y cerrar el modal de edición de rol
             window.editarRol = function(id, user_type, descripcion, estado) {

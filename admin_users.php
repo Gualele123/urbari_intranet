@@ -1,6 +1,8 @@
 <?php
 // include 'header.php';
 
+// admin_users muestra el crud de usuarios registrados
+
 // Solo permitir acceso si el usuario es administrador
 if ($fetch_profile['user_type'] !== 'admin') {
     header('location:admin_page.php');

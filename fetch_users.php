@@ -11,10 +11,10 @@ while ($row = $select_users->fetch(PDO::FETCH_ASSOC)) {
         <td>{$row['name']}</td>
         <td>{$row['email']}</td>
         <td>{$row['user_type']}</td>
-        <td><img src='uploaded_img/{$row['image']}' alt='' width='50'></td>
+        <td><img class='img-thumbnail' src='uploaded_img/{$row['image']}' alt='' width='50'></td>
         <td>
-            <button class='btn' onclick=\"editarUsuario({$row['id']}, '{$row['name']}', '{$row['email']}', '{$row['user_type']}', '{$row['image']}')\">Editar</button>
-            <button class='btn' onclick=\"eliminarUsuario({$row['id']})\">Eliminar</button>
+            <button class='btn btn-secondary' onclick=\"editarUsuario({$row['id']}, '{$row['name']}', '{$row['email']}', '{$row['user_type']}', '{$row['image']}')\"><i class='fa-solid fa-pen-to-square'></i></button>
+            <button class='btn btn-danger' onclick=\"eliminarUsuario({$row['id']})\"><i class='fa-solid fa-trash'></i></button>
         </td>
     </tr>
     ";
