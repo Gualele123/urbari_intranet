@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 20-02-2025 a las 22:06:59
+-- Tiempo de generación: 21-02-2025 a las 22:30:41
 -- Versión del servidor: 11.3.2-MariaDB
 -- Versión de PHP: 8.3.6
 
@@ -242,37 +242,33 @@ CREATE TABLE IF NOT EXISTS `roles_permisos` (
   `valor` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=241 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=265 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles_permisos`
 --
 
 INSERT INTO `roles_permisos` (`id`, `role_id`, `modulo`, `permiso`, `valor`) VALUES
-(1, 3, 'dashboard', 'ver', 1),
-(2, 3, 'dashboard', 'crear', 1),
-(3, 3, 'dashboard', 'editar', 1),
-(4, 3, 'dashboard', 'eliminar', 1),
-(5, 3, 'cumpleaneros', 'ver', 1),
-(6, 3, 'cumpleaneros', 'crear', 1),
-(7, 3, 'cumpleaneros', 'editar', 1),
-(8, 3, 'cumpleaneros', 'eliminar', 1),
-(9, 3, 'comunicados', 'ver', 1),
-(10, 3, 'comunicados', 'crear', 1),
-(11, 3, 'comunicados', 'editar', 1),
-(12, 3, 'comunicados', 'eliminar', 1),
-(13, 3, 'servicios', 'ver', 1),
-(14, 3, 'servicios', 'crear', 1),
-(15, 3, 'servicios', 'editar', 1),
-(16, 3, 'servicios', 'eliminar', 1),
-(17, 3, 'contactos', 'ver', 1),
-(18, 3, 'contactos', 'crear', 1),
-(19, 3, 'contactos', 'editar', 1),
-(20, 3, 'contactos', 'eliminar', 1),
-(21, 3, 'formularios', 'ver', 1),
-(22, 3, 'formularios', 'crear', 1),
-(23, 3, 'formularios', 'editar', 1),
-(24, 3, 'formularios', 'eliminar', 1),
+(260, 3, 'contactos', 'eliminar', 1),
+(259, 3, 'contactos', 'editar', 1),
+(258, 3, 'contactos', 'crear', 1),
+(257, 3, 'contactos', 'ver', 1),
+(256, 3, 'servicios', 'eliminar', 1),
+(255, 3, 'servicios', 'editar', 1),
+(254, 3, 'servicios', 'crear', 1),
+(253, 3, 'servicios', 'ver', 1),
+(252, 3, 'comunicados', 'eliminar', 1),
+(251, 3, 'comunicados', 'editar', 1),
+(250, 3, 'comunicados', 'crear', 1),
+(249, 3, 'comunicados', 'ver', 1),
+(248, 3, 'cumpleaneros', 'eliminar', 1),
+(247, 3, 'cumpleaneros', 'editar', 1),
+(246, 3, 'cumpleaneros', 'crear', 1),
+(245, 3, 'cumpleaneros', 'ver', 1),
+(244, 3, 'dashboard', 'eliminar', 1),
+(243, 3, 'dashboard', 'editar', 1),
+(242, 3, 'dashboard', 'crear', 1),
+(241, 3, 'dashboard', 'ver', 1),
 (142, 6, 'formularios', 'crear', 0),
 (141, 6, 'formularios', 'ver', 1),
 (140, 6, 'contactos', 'eliminar', 0),
@@ -368,7 +364,11 @@ INSERT INTO `roles_permisos` (`id`, `role_id`, `modulo`, `permiso`, `valor`) VAL
 (219, 5, 'dashboard', 'editar', 1),
 (218, 5, 'dashboard', 'crear', 1),
 (217, 5, 'dashboard', 'ver', 1),
-(240, 5, 'formularios', 'eliminar', 0);
+(240, 5, 'formularios', 'eliminar', 0),
+(261, 3, 'formularios', 'ver', 1),
+(262, 3, 'formularios', 'crear', 1),
+(263, 3, 'formularios', 'editar', 1),
+(264, 3, 'formularios', 'eliminar', 1);
 
 -- --------------------------------------------------------
 
