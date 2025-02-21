@@ -1,6 +1,10 @@
 <?php
 include 'config.php';
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Obtener todos los contactos junto con su área
 $sql = "SELECT c.id, c.foto, c.nombre, c.contacto, a.nombre AS area 
         FROM contactos c

@@ -1,6 +1,10 @@
 <?php
 include('config.php');
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Obtener todas las áreas para el select
 $sql = "SELECT * FROM area";
 $stmt = $pdo->query($sql);

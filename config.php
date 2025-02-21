@@ -12,12 +12,6 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
 
-// function getAllowedModules($pdo, $role_id) {
-//     $select_permissions = $pdo->prepare("SELECT modulo FROM `roles_permisos` WHERE role_id = ? AND valor = 1");
-//     $select_permissions->execute([$role_id]);
-//     return $select_permissions->fetchAll(PDO::FETCH_COLUMN, 0);
-// }
-
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);

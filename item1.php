@@ -1,8 +1,9 @@
 <?php
+include 'config.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include 'config.php';
 
 // Verificar si las variables de sesión están definidas
 if (!isset($_SESSION['role_type']) || !isset($_SESSION['user_id'])) {

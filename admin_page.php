@@ -7,17 +7,16 @@
 ?>
 
                <!-- DASHBOARD -->
-                <div class="item">
+                <div class="item active">
                     <?php  include 'item1.php'; ?>
                 </div>
-
-               <!-- ADMIN USERS -->
+                <!-- ADMIN USERS -->
                <div class="item">
                    <?php include 'admin_users.php'; ?>
                </div>
 
                <!-- ADMIN ROLES -->
-               <div class="item active">
+               <div class="item">
                    <?php include 'admin_roles.php'; ?>
                </div>
 
@@ -45,6 +44,8 @@
                 <div class="item">
                     <?php  include 'item6.php'; ?>
                 </div>
+
+               
 
 <?php
   include 'footer.php';

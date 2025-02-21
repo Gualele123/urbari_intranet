@@ -1,5 +1,5 @@
 <?php
-  include 'header-user.php';
+  include 'header.php';
 ?>
 
 <?php
@@ -9,11 +9,6 @@
 <!-- DASHBOARD -->
 <div class="item active">
     <?php  include 'item1.php'; ?>
-</div>
-
-<!-- CUMPLEAÑEROS -->
-<div class="item">
-    <?php  include 'item2.php'; ?>
 </div>
 
 <?php

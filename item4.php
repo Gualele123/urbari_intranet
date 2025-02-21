@@ -1,6 +1,10 @@
 <?php
 require 'config.php';
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo_servicio = $_POST['tipo_servicio'];
     $imagen = 'uploads/default_tipo_servicio.jpg'; // Imagen por defecto
