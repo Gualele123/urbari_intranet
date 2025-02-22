@@ -1,20 +1,16 @@
-
-
 <?php
-  include 'header.php';
+include 'header.php';
 ?>
 
 <?php
-  include 'navbar-user.php';
+include 'navbar-user.php';
 ?>
 
 <!-- DASHBOARD -->
 <div class="item active">
-   <?php  include 'item1.php'; ?>
+   <?php include 'item1.php'; ?>
 </div>
 
-   
-
 <?php
-  include 'footer.php';
+include 'footer.php';
 ?>

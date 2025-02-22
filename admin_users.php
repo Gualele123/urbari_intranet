@@ -1,23 +1,36 @@
 <?php
-// include 'header.php';
+include 'config.php';
 
-// admin_users muestra el crud de usuarios registrados
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['rol']) || !isset($_SESSION['user_id'])) {
+    die("Error: No se ha iniciado sesión correctamente.");
+}
+
+$rol = $_SESSION['rol'];
+$id = $_SESSION['user_id'];
 
 // Solo permitir acceso si el usuario es administrador
-if ($fetch_profile['user_type'] !== 'admin') {
+if ($rol !== 'admin') {
     header('location:admin_page.php');
     exit;
 }
+
+// Consulta para obtener los usuarios y sus roles
+$select_users = $pdo->prepare("SELECT users.id, users.name, users.email, users.image, roles.rol FROM users JOIN roles ON users.rol_id = roles.id");
+$select_users->execute();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Administrar Usuarios</title>
-   <link rel="stylesheet" href="styles.css">
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Usuarios</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -34,7 +47,19 @@ if ($fetch_profile['user_type'] !== 'admin') {
                 </tr>
             </thead>
             <tbody id="userTableBody">
-                <!-- Los datos de los usuarios se cargarán aquí mediante AJAX -->
+                <?php while ($row = $select_users->fetch(PDO::FETCH_ASSOC)) { ?>
+                <tr>
+                    <td><?= $row['id']; ?></td>
+                    <td><?= $row['name']; ?></td>
+                    <td><?= $row['email']; ?></td>
+                    <td><?= $row['rol']; ?></td>
+                    <td><img class='img-thumbnail' src='uploaded_img/<?= $row['image']; ?>' alt='' width='50'></td>
+                    <td>
+                        <button class='btn btn-secondary' onclick="editarUsuario(<?= $row['id']; ?>, '<?= $row['name']; ?>', '<?= $row['email']; ?>', '<?= $row['rol']; ?>', '<?= $row['image']; ?>')"><i class='fa-solid fa-pen-to-square'></i></button>
+                        <button class='btn btn-danger' onclick="eliminarUsuario(<?= $row['id']; ?>)"><i class='fa-solid fa-trash'></i></button>
+                    </td>
+                </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
@@ -50,8 +75,8 @@ if ($fetch_profile['user_type'] !== 'admin') {
                 <input type="text" name="name" id="edit_name" required>
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="edit_email" required>
-                <label for="user_type">Rol:</label>
-                <select name="user_type" id="edit_user_type" required>
+                <label for="rol">Rol:</label>
+                <select name="rol" id="edit_user_type" required>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                     <option value="colaborador">Colaborador</option>
@@ -66,28 +91,12 @@ if ($fetch_profile['user_type'] !== 'admin') {
 
     <script>
     $(document).ready(function() {
-        cargarUsuarios();
-
-        // Función para cargar usuarios cada 5 segundos
-        setInterval(cargarUsuarios, 5000);
-
-        // Función para cargar usuarios
-        function cargarUsuarios() {
-            $.ajax({
-                url: 'fetch_users.php',
-                type: 'GET',
-                success: function(data) {
-                    $('#userTableBody').html(data);
-                }
-            });
-        }
-
         // Función para abrir el modal de edición
-        window.editarUsuario = function(id, name, email, user_type, image) {
+        window.editarUsuario = function(id, name, email, rol, image) {
             document.getElementById('edit_id').value = id;
             document.getElementById('edit_name').value = name;
             document.getElementById('edit_email').value = email;
-            document.getElementById('edit_user_type').value = user_type;
+            document.getElementById('edit_user_type').value = rol;
             document.getElementById('modalEditarUsuario').style.display = 'block';
         }
 
@@ -110,7 +119,7 @@ if ($fetch_profile['user_type'] !== 'admin') {
                 success: function(data) {
                     alert(data);
                     cerrarModal();
-                    cargarUsuarios();
+                    location.reload();
                 }
             });
         });
@@ -124,7 +133,7 @@ if ($fetch_profile['user_type'] !== 'admin') {
                     data: { delete_id: id },
                     success: function(data) {
                         alert(data);
-                        cargarUsuarios();
+                        location.reload();
                     }
                 });
             }

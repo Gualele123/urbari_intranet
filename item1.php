@@ -6,12 +6,12 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Verificar si las variables de sesión están definidas
-if (!isset($_SESSION['role_type']) || !isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['rol']) || !isset($_SESSION['user_id'])) {
     die("Error: No se ha iniciado sesión correctamente.");
 }
 
 // Determinar el tipo de rol e ID del usuario actual
-$role_type = $_SESSION['role_type'];
+$role_type = $_SESSION['rol'];
 $id = $_SESSION['user_id'];
 
 // Consulta para obtener el perfil del usuario
