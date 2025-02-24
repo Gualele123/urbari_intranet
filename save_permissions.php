@@ -5,6 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role_id = $_POST['role_id'];
     $modulos = [
         'dashboard',
+        'usuarios',
+        'roles',
         'cumpleaneros',
         'comunicados',
         'servicios',
