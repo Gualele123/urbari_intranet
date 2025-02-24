@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 22-02-2025 a las 22:08:48
+-- Tiempo de generación: 24-02-2025 a las 23:07:54
 -- Versión del servidor: 11.3.2-MariaDB
 -- Versión de PHP: 8.3.6
 
@@ -213,19 +213,20 @@ DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rol` varchar(255) NOT NULL,
-  `descripcion` text NOT NULL,
-  `estado` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `descripcion` text DEFAULT NULL,
+  `estado` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`id`, `rol`, `descripcion`, `estado`, `created_at`) VALUES
-(13, 'user', 'para ver y editar', 'activo', '2025-02-22 21:48:48'),
-(12, 'admin', 'todos los permisosa', 'activo', '2025-02-22 21:08:37');
+INSERT INTO `roles` (`id`, `rol`, `descripcion`, `estado`) VALUES
+(1, 'admin', 'todos los permisos', 'activo'),
+(2, 'user', 'solo algunos permisos mas', 'activo'),
+(3, 'colaborador', 'solo algunos permisos', 'activo'),
+(4, 'recursos humanos', 'solo algunos permisos', 'activo');
 
 -- --------------------------------------------------------
 
@@ -235,26 +236,149 @@ INSERT INTO `roles` (`id`, `rol`, `descripcion`, `estado`, `created_at`) VALUES
 
 DROP TABLE IF EXISTS `roles_permisos`;
 CREATE TABLE IF NOT EXISTS `roles_permisos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_rol` int(11) NOT NULL,
   `id_permiso` int(11) NOT NULL,
   `modulo` varchar(255) NOT NULL,
   `valor` int(11) NOT NULL,
-  PRIMARY KEY (`id_rol`,`id_permiso`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_permiso` (`id_rol`,`id_permiso`,`modulo`) USING HASH,
+  KEY `id_permiso` (`id_permiso`)
+) ENGINE=MyISAM AUTO_INCREMENT=401 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles_permisos`
 --
 
-INSERT INTO `roles_permisos` (`id_rol`, `id_permiso`, `modulo`, `valor`) VALUES
-(13, 3, 'dashboard', 0),
-(13, 4, 'dashboard', 0),
-(13, 2, 'dashboard', 0),
-(13, 1, 'dashboard', 0),
-(12, 1, 'dashboard', 0),
-(12, 2, 'dashboard', 0),
-(12, 3, 'dashboard', 0),
-(12, 4, 'dashboard', 0);
+INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`, `modulo`, `valor`) VALUES
+(270, 3, 2, 'formularios', 0),
+(269, 3, 1, 'formularios', 0),
+(268, 3, 4, 'contactos', 0),
+(267, 3, 3, 'contactos', 0),
+(266, 3, 2, 'contactos', 0),
+(265, 3, 1, 'contactos', 0),
+(264, 3, 4, 'servicios', 0),
+(263, 3, 3, 'servicios', 1),
+(262, 3, 2, 'servicios', 1),
+(261, 3, 1, 'servicios', 1),
+(260, 3, 4, 'comunicados', 0),
+(259, 3, 3, 'comunicados', 0),
+(258, 3, 2, 'comunicados', 0),
+(176, 2, 4, 'formularios', 0),
+(175, 2, 3, 'formularios', 0),
+(174, 2, 2, 'formularios', 0),
+(173, 2, 1, 'formularios', 0),
+(172, 2, 4, 'contactos', 0),
+(171, 2, 3, 'contactos', 0),
+(170, 2, 2, 'contactos', 0),
+(169, 2, 1, 'contactos', 0),
+(168, 2, 4, 'servicios', 0),
+(167, 2, 3, 'servicios', 0),
+(166, 2, 2, 'servicios', 0),
+(165, 2, 1, 'servicios', 0),
+(164, 2, 4, 'comunicados', 0),
+(163, 2, 3, 'comunicados', 0),
+(162, 2, 2, 'comunicados', 0),
+(161, 2, 1, 'comunicados', 0),
+(160, 2, 4, 'cumpleaneros', 0),
+(159, 2, 3, 'cumpleaneros', 0),
+(158, 2, 2, 'cumpleaneros', 0),
+(157, 2, 1, 'cumpleaneros', 1),
+(156, 2, 4, 'roles', 0),
+(155, 2, 3, 'roles', 0),
+(154, 2, 2, 'roles', 0),
+(153, 2, 1, 'roles', 0),
+(152, 2, 4, 'usuarios', 0),
+(151, 2, 3, 'usuarios', 0),
+(150, 2, 2, 'usuarios', 0),
+(149, 2, 1, 'usuarios', 0),
+(148, 2, 4, 'dashboard', 0),
+(147, 2, 3, 'dashboard', 0),
+(146, 2, 2, 'dashboard', 0),
+(145, 2, 1, 'dashboard', 1),
+(257, 3, 1, 'comunicados', 1),
+(256, 3, 4, 'cumpleaneros', 0),
+(255, 3, 3, 'cumpleaneros', 0),
+(254, 3, 2, 'cumpleaneros', 0),
+(253, 3, 1, 'cumpleaneros', 0),
+(252, 3, 4, 'roles', 0),
+(251, 3, 3, 'roles', 0),
+(250, 3, 2, 'roles', 0),
+(249, 3, 1, 'roles', 0),
+(248, 3, 4, 'usuarios', 0),
+(247, 3, 3, 'usuarios', 0),
+(246, 3, 2, 'usuarios', 0),
+(245, 3, 1, 'usuarios', 0),
+(244, 3, 4, 'dashboard', 0),
+(243, 3, 3, 'dashboard', 0),
+(242, 3, 2, 'dashboard', 0),
+(241, 3, 1, 'dashboard', 1),
+(271, 3, 3, 'formularios', 0),
+(272, 3, 4, 'formularios', 0),
+(394, 4, 2, 'contactos', 1),
+(393, 4, 1, 'contactos', 1),
+(392, 4, 4, 'servicios', 0),
+(391, 4, 3, 'servicios', 0),
+(390, 4, 2, 'servicios', 0),
+(389, 4, 1, 'servicios', 0),
+(388, 4, 4, 'comunicados', 0),
+(387, 4, 3, 'comunicados', 0),
+(386, 4, 2, 'comunicados', 0),
+(385, 4, 1, 'comunicados', 0),
+(384, 4, 4, 'cumpleaneros', 0),
+(383, 4, 3, 'cumpleaneros', 0),
+(382, 4, 2, 'cumpleaneros', 0),
+(381, 4, 1, 'cumpleaneros', 1),
+(380, 4, 4, 'roles', 0),
+(379, 4, 3, 'roles', 0),
+(378, 4, 2, 'roles', 0),
+(377, 4, 1, 'roles', 0),
+(376, 4, 4, 'usuarios', 0),
+(375, 4, 3, 'usuarios', 0),
+(374, 4, 2, 'usuarios', 0),
+(373, 4, 1, 'usuarios', 0),
+(372, 4, 4, 'dashboard', 0),
+(371, 4, 3, 'dashboard', 0),
+(370, 4, 2, 'dashboard', 0),
+(369, 4, 1, 'dashboard', 1),
+(364, 1, 4, 'contactos', 1),
+(363, 1, 3, 'contactos', 1),
+(362, 1, 2, 'contactos', 1),
+(361, 1, 1, 'contactos', 1),
+(360, 1, 4, 'servicios', 1),
+(359, 1, 3, 'servicios', 1),
+(358, 1, 2, 'servicios', 1),
+(357, 1, 1, 'servicios', 1),
+(356, 1, 4, 'comunicados', 1),
+(355, 1, 3, 'comunicados', 1),
+(354, 1, 2, 'comunicados', 1),
+(353, 1, 1, 'comunicados', 1),
+(352, 1, 4, 'cumpleaneros', 1),
+(351, 1, 3, 'cumpleaneros', 1),
+(350, 1, 2, 'cumpleaneros', 1),
+(349, 1, 1, 'cumpleaneros', 1),
+(348, 1, 4, 'roles', 1),
+(347, 1, 3, 'roles', 1),
+(346, 1, 2, 'roles', 1),
+(345, 1, 1, 'roles', 1),
+(344, 1, 4, 'usuarios', 1),
+(343, 1, 3, 'usuarios', 1),
+(342, 1, 2, 'usuarios', 1),
+(341, 1, 1, 'usuarios', 1),
+(340, 1, 4, 'dashboard', 1),
+(339, 1, 3, 'dashboard', 1),
+(338, 1, 2, 'dashboard', 1),
+(337, 1, 1, 'dashboard', 1),
+(365, 1, 1, 'formularios', 1),
+(366, 1, 2, 'formularios', 1),
+(367, 1, 3, 'formularios', 1),
+(368, 1, 4, 'formularios', 1),
+(395, 4, 3, 'contactos', 0),
+(396, 4, 4, 'contactos', 0),
+(397, 4, 1, 'formularios', 0),
+(398, 4, 2, 'formularios', 0),
+(399, 4, 3, 'formularios', 0),
+(400, 4, 4, 'formularios', 0);
 
 -- --------------------------------------------------------
 
@@ -335,15 +459,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `rol_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_rol` (`rol_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `image`, `rol_id`) VALUES
-(17, 'admin', 'admin@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-6.jpg', 12),
-(19, 'mau', 'mau@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-1.jpg', 13);
+(23, 'mau', 'mau@gmail.com', '202cb962ac59075b964b07152d234b70', 'usuario.png', 2),
+(22, 'admin', 'admin@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-1.jpg', 1),
+(24, 'maria', 'maria@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-6.jpg', 3),
+(25, 'carla', 'carla@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-2.jpg', 4);
 
 --
 -- Restricciones para tablas volcadas
