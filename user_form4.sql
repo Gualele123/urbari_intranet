@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 24-02-2025 a las 23:07:54
+-- Tiempo de generación: 25-02-2025 a las 22:23:01
 -- Versión del servidor: 11.3.2-MariaDB
 -- Versión de PHP: 8.3.6
 
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `roles_permisos` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_permiso` (`id_rol`,`id_permiso`,`modulo`) USING HASH,
   KEY `id_permiso` (`id_permiso`)
-) ENGINE=MyISAM AUTO_INCREMENT=401 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1585 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `roles_permisos`
@@ -264,38 +264,33 @@ INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`, `modulo`, `valor`) V
 (260, 3, 4, 'comunicados', 0),
 (259, 3, 3, 'comunicados', 0),
 (258, 3, 2, 'comunicados', 0),
-(176, 2, 4, 'formularios', 0),
-(175, 2, 3, 'formularios', 0),
-(174, 2, 2, 'formularios', 0),
-(173, 2, 1, 'formularios', 0),
-(172, 2, 4, 'contactos', 0),
-(171, 2, 3, 'contactos', 0),
-(170, 2, 2, 'contactos', 0),
-(169, 2, 1, 'contactos', 0),
-(168, 2, 4, 'servicios', 0),
-(167, 2, 3, 'servicios', 0),
-(166, 2, 2, 'servicios', 0),
-(165, 2, 1, 'servicios', 0),
-(164, 2, 4, 'comunicados', 0),
-(163, 2, 3, 'comunicados', 0),
-(162, 2, 2, 'comunicados', 0),
-(161, 2, 1, 'comunicados', 0),
-(160, 2, 4, 'cumpleaneros', 0),
-(159, 2, 3, 'cumpleaneros', 0),
-(158, 2, 2, 'cumpleaneros', 0),
-(157, 2, 1, 'cumpleaneros', 1),
-(156, 2, 4, 'roles', 0),
-(155, 2, 3, 'roles', 0),
-(154, 2, 2, 'roles', 0),
-(153, 2, 1, 'roles', 0),
-(152, 2, 4, 'usuarios', 0),
-(151, 2, 3, 'usuarios', 0),
-(150, 2, 2, 'usuarios', 0),
-(149, 2, 1, 'usuarios', 0),
-(148, 2, 4, 'dashboard', 0),
-(147, 2, 3, 'dashboard', 0),
-(146, 2, 2, 'dashboard', 0),
-(145, 2, 1, 'dashboard', 1),
+(1584, 2, 4, 'formularios', 0),
+(1583, 2, 3, 'formularios', 0),
+(1582, 2, 2, 'formularios', 0),
+(1581, 2, 1, 'formularios', 1),
+(1580, 2, 4, 'contactos', 0),
+(1579, 2, 3, 'contactos', 0),
+(1578, 2, 2, 'contactos', 1),
+(1577, 2, 1, 'contactos', 1),
+(1576, 2, 4, 'servicios', 0),
+(1575, 2, 3, 'servicios', 0),
+(1574, 2, 2, 'servicios', 1),
+(1573, 2, 1, 'servicios', 1),
+(1572, 2, 4, 'comunicados', 0),
+(1571, 2, 3, 'comunicados', 0),
+(1570, 2, 2, 'comunicados', 0),
+(1569, 2, 1, 'comunicados', 1),
+(1568, 2, 4, 'cumpleaneros', 0),
+(1567, 2, 3, 'cumpleaneros', 0),
+(1566, 2, 2, 'cumpleaneros', 0),
+(1565, 2, 1, 'cumpleaneros', 0),
+(1564, 2, 4, 'roles', 0),
+(1563, 2, 3, 'roles', 0),
+(1562, 2, 2, 'roles', 0),
+(1561, 2, 1, 'roles', 0),
+(1560, 2, 4, 'usuarios', 0),
+(1559, 2, 3, 'usuarios', 0),
+(1558, 2, 2, 'usuarios', 0),
 (257, 3, 1, 'comunicados', 1),
 (256, 3, 4, 'cumpleaneros', 0),
 (255, 3, 3, 'cumpleaneros', 0),
@@ -378,7 +373,12 @@ INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`, `modulo`, `valor`) V
 (397, 4, 1, 'formularios', 0),
 (398, 4, 2, 'formularios', 0),
 (399, 4, 3, 'formularios', 0),
-(400, 4, 4, 'formularios', 0);
+(400, 4, 4, 'formularios', 0),
+(1557, 2, 1, 'usuarios', 0),
+(1556, 2, 4, 'dashboard', 0),
+(1555, 2, 3, 'dashboard', 0),
+(1554, 2, 2, 'dashboard', 0),
+(1553, 2, 1, 'dashboard', 1);
 
 -- --------------------------------------------------------
 
