@@ -5,7 +5,22 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$user_id = $_SESSION['user_id'];
+$role_id = $_SESSION['role_id']; // Suponiendo que ya tenemos el rol_id en la sesión
+
+// Obtener los permisos del rol del usuario
+$select_permissions = $pdo->prepare("SELECT modulo, permiso, valor FROM `roles_permisos` JOIN `permisos` ON roles_permisos.id_permiso = permisos.id WHERE id_rol = ? AND modulo = 'servicios'");
+$select_permissions->execute([$role_id]);
+$permissions = $select_permissions->fetchAll(PDO::FETCH_ASSOC);
+
+$allowed_permissions = [];
+foreach ($permissions as $permission) {
+    if ($permission['valor'] == 1) {
+        $allowed_permissions[$permission['permiso']] = true;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($allowed_permissions['crear'])) {
     $tipo_servicio = $_POST['tipo_servicio'];
     $imagen = 'uploads/default_tipo_servicio.jpg'; // Imagen por defecto
 
@@ -31,16 +46,19 @@ $tipos_servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- <div class="serv-portada">
             <img src="./img/servicios/serv-7.jpeg" alt="">
         </div> -->
-        <form action="item4.php" method="post" enctype="multipart/form-data">
-            <p>Registrar Servicio</p>
-            <label for="tipo_servicio">Tipo de Servicio:</label>
-            <input class="form-control" type="text" name="tipo_servicio" required>
-            <br>
-            <label for="imagen">Imagen:</label>
-            <input class="form-control" type="file" name="imagen">
-            <br>
-            <button class="btn btn-success" type="submit"><i class="fa-solid fa-plus"></i> Crear</button>
-        </form>
+
+        <?php if (isset($allowed_permissions['crear'])): ?>
+            <form action="item4.php" method="post" enctype="multipart/form-data">
+                <p>Registrar Servicio</p>
+                <label for="tipo_servicio">Tipo de Servicio:</label>
+                <input class="form-control" type="text" name="tipo_servicio" required>
+                <br>
+                <label for="imagen">Imagen:</label>
+                <input class="form-control" type="file" name="imagen">
+                <br>
+                <button class="btn btn-success" type="submit"><i class="fa-solid fa-plus"></i> Crear</button>
+            </form>
+        <?php endif; ?>
 
         <div class="serv-info">
             <div class="titulo">
@@ -59,13 +77,16 @@ $tipos_servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </a>
                         <div class="opciones">
-                            <a class="btn btn-info" href="editar_tiposervicio.php?id=<?php echo $tipo_servicio['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a class="btn btn-secondary" href="eliminar_tiposervicio.php?id=<?php echo $tipo_servicio['id'] ?>"><i class="fa-solid fa-trash"></i></a> 
+                            <?php if (isset($allowed_permissions['editar'])): ?>
+                                <a class="btn btn-info" href="editar_tiposervicio.php?id=<?php echo $tipo_servicio['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <?php endif; ?>
+                            <?php if (isset($allowed_permissions['eliminar'])): ?>
+                                <a class="btn btn-secondary" href="eliminar_tiposervicio.php?id=<?php echo $tipo_servicio['id'] ?>"><i class="fa-solid fa-trash"></i></a>
+                            <?php endif; ?>
                         </div>
-                </div>
+                    </div>
                 <?php endforeach; ?>
             </div>
-            
         </div>
     </div>
 </div>
