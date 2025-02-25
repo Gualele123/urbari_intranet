@@ -77,7 +77,7 @@ include 'navbar.php';
 ?>
 
 <div class="container">
-    <h1>Bienvenido a la Página de Usuario</h1>
+    <!-- <h1>Bienvenido a la Página de Usuario</h1> -->
 
     <!-- DASHBOARD -->
     <?php if (isset($allowed_modules['dashboard']['ver'])): ?>
