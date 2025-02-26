@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($allowed_permissions['crear'])
         }
         ?>
 
-        <table id="myTable2" class="table table-sm table-striped">
+        <table id="myTableFormularios" class="table table-sm table-striped">
             <thead>
                 <tr>
                     <th>Nombre del archivo</th>

@@ -40,7 +40,7 @@ foreach ($permissions as $permission) {
         <h1>Lista de Contactos</h1>
         <!-- Lista de contactos (permiso de ver) -->
         <?php if (isset($allowed_permissions['ver'])): ?>
-            <table id="myTable" class="table table-striped table-bordered table-sm">
+            <table id="myTableContactos" class="table table-striped table-bordered table-sm">
                 <thead>
                     <tr>
                         <th>ID</th>

@@ -23,19 +23,9 @@ $select_users = $pdo->prepare("SELECT users.id, users.name, users.email, users.i
 $select_users->execute();
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrar Usuarios</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
     <div class="container">
         <h1>Administrar Usuarios</h1>
-        <table id="myTable">
+        <table id="myTableUsers" class="table table-striped table-bordered table-sm">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -140,5 +130,3 @@ $select_users->execute();
         }
     });
     </script>
-</body>
-</html>

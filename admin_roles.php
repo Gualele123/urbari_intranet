@@ -53,18 +53,10 @@ if ($select_roles === false) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Administrar Roles</title>
-   <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+
     <div class="container">
         <h1>Administrar Roles</h1>
-        <table id="myTable2">
+        <table id="myTableRoles" class="table table-striped table-bordered table-sm">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -152,5 +144,4 @@ if ($select_roles === false) {
         });
         </script>
     </div>
-</body>
-</html>
+

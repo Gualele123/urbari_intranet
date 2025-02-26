@@ -21,8 +21,10 @@
 
    <script>
     $(document).ready( function () {
-      $('#myTable').DataTable();
-      $('#myTable2').DataTable();
+      $('#myTableContactos').DataTable();
+      $('#myTableFormularios').DataTable();
+      $('#myTableUsers').DataTable();
+      $('#myTableRoles').DataTable();
     } );
    </script>
 
