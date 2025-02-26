@@ -1,30 +1,16 @@
-
-<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
-    <!-- <div class="top-section">
-        <h1>Cumpleañeros del Día</h1>
-        <div id="cumpleaneros-dia" class="card-container"></div>
-    </div>
-    <div class="bottom-section">
-        <h1>Cumpleañeros de la Semana</h1>
-        <div id="carousel-semana" class="carousel">
-
-        </div>
-    </div> -->
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
 <div class="top-section">
-        <h1>Cumpleañeros del Día</h1>
-        <div id="cumpleaneros-dia" class="card-container"></div>
+    <h1>Cumpleañeros del Día</h1>
+    <div id="cumpleaneros-dia" class="card-container"></div>
 </div>
 <!-- <div class="bottom-section"> -->
-        <!-- <h1>Cumpleañeros de la Semana</h1> -->
+    <!-- <h1>Cumpleañeros de la Semana</h1> -->
     <div class="container cumpleaneros swiper"> <!--añadido swiper-->
         <div class="slider-wrapper">
-        <p>Cumpleañeros de la Semana</p>
+            <p>Cumpleañeros de la Semana</p>
             <div id="carousel-semana" class="card-list swiper-wrapper"> <!--añadido swiper-wrapper-->
                 <!-- añadir aqui la card -->
-        
             </div>
 
             <!--paginacion -->
@@ -38,9 +24,8 @@
 <!-- </div> -->
     
 
- <!-- libreria js externa swiper para carousel -->
- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
+<!-- libreria js externa swiper para carousel -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
 <script>
@@ -56,6 +41,21 @@ if (session_status() == PHP_SESSION_NONE) {
 try {
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $user_id = $_SESSION['user_id'];
+    $role_id = $_SESSION['role_id']; // Suponiendo que ya tenemos el rol_id en la sesión
+
+    // Obtener los permisos del rol del usuario
+    $select_permissions = $pdo->prepare("SELECT modulo, permiso, valor FROM `roles_permisos` JOIN `permisos` ON roles_permisos.id_permiso = permisos.id WHERE id_rol = ? AND modulo = 'cumpleaneros'");
+    $select_permissions->execute([$role_id]);
+    $permissions = $select_permissions->fetchAll(PDO::FETCH_ASSOC);
+
+    $allowed_permissions = [];
+    foreach ($permissions as $permission) {
+        if ($permission['valor'] == 1) {
+            $allowed_permissions[$permission['permiso']] = true;
+        }
+    }
 
     // Obtener la fecha de hoy
     $fechaHoy = new DateTime();
@@ -126,7 +126,6 @@ try {
 }
 ?>
 
-// scripts.js
 document.addEventListener('DOMContentLoaded', function() {
     
     // Función para convertir el mes en número a las tres primeras letras del mes
@@ -137,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para crear una card
     function createCard(empleado, isCumpleaneroDia) {
-
         // añade un div
         const card = document.createElement('div');
         card.className = 'card';
@@ -198,17 +196,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para crear una card carousel
     function createCardCarousel(empleado, isCumpleaneroDia) {
+        // añade un div
+        const card = document.createElement('div');
+        card.className = 'card-item swiper-slide';
 
-    // añade un div
-    const card = document.createElement('div');
-    card.className = 'card-item swiper-slide';
-
-    // resalta la card de color amarillo
-    if (isCumpleaneroDia) {
+        // resalta la card de color amarillo
+        if (isCumpleaneroDia) {
             card.classList.add('highlight');
-    }
+        }
 
-    // añade etiqueta imagen
+            // añade etiqueta imagen
     const img = document.createElement('img');
     img.src = `fotos/${empleado.id}`; // Acepta cualquier formato de foto
     img.className = 'user-image';
@@ -220,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
     nombre.className = 'user-name';
     card.appendChild(nombre);
 
-    // añade un parrafo p con el area
+    // añade un parrafo p con el área
     const area = document.createElement('p');
     area.textContent = `Área: ${empleado.area}`;
     area.className = 'user-profession';
@@ -238,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const fechaTexto = `Cumpleaño: ${dia}/${obtenerMesAbreviado(mes)}`;
     const fechaSpan = document.createElement('span');
     fechaSpan.className = 'fechacarousel';
-    // fechaNacimiento.className = 'message-button';
 
     // Crear fechas para comparación
     const fechaNacimientoDate = new Date();
@@ -249,43 +245,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0); // Asegurarse de que se comparen solo las fechas y no las horas
 
-        // Comparar fechas
-        if (fechaNacimientoDate.toDateString() === hoy.toDateString()) {
-            fechaSpan.classList.add('hoy');
-        } else if (fechaNacimientoDate < hoy) {
-            fechaSpan.classList.add('pasado');
-        } else {
-            fechaSpan.classList.add('proximo');
-        }
-
-        fechaSpan.textContent = fechaTexto;
-        // fechaNacimiento.appendChild(fechaSpan);
-        card.appendChild(fechaSpan);
-        
-        return card;
-    }
-
-
-
-    // Mostrar los cumpleañeros del día
-    const cumpleanerosDiaContainer = document.getElementById('cumpleaneros-dia');
-    if (cumpleanerosDia.length === 0) {
-        const mensaje = document.createElement('p');
-        mensaje.textContent = "Hoy no hay cumpleañeros";
-        cumpleanerosDiaContainer.appendChild(mensaje);
+    // Comparar fechas
+    if (fechaNacimientoDate.toDateString() === hoy.toDateString()) {
+        fechaSpan.classList.add('hoy');
+    } else if (fechaNacimientoDate < hoy) {
+        fechaSpan.classList.add('pasado');
     } else {
-        cumpleanerosDia.forEach(empleado => {
-            const card = createCard(empleado, true);
-            cumpleanerosDiaContainer.appendChild(card);
-        });
+        fechaSpan.classList.add('proximo');
     }
 
-    // Mostrar los cumpleañeros pasados, de la semana y de la próxima semana en el carrusel
-    const carouselSemana = document.getElementById('carousel-semana');
-    cumpleanerosSemana.forEach(empleado => {
-        const card = createCardCarousel(empleado, false);
-        carouselSemana.appendChild(card);
+    fechaSpan.textContent = fechaTexto;
+    card.appendChild(fechaSpan);
+
+    return card;
+}
+
+// Mostrar los cumpleañeros del día
+const cumpleanerosDiaContainer = document.getElementById('cumpleaneros-dia');
+if (cumpleanerosDia.length === 0) {
+    const mensaje = document.createElement('p');
+    mensaje.textContent = "Hoy no hay cumpleañeros";
+    cumpleanerosDiaContainer.appendChild(mensaje);
+} else {
+    cumpleanerosDia.forEach(empleado => {
+        const card = createCard(empleado, true);
+        cumpleanerosDiaContainer.appendChild(card);
     });
+}
+
+// Mostrar los cumpleañeros pasados, de la semana y de la próxima semana en el carrusel
+const carouselSemana = document.getElementById('carousel-semana');
+cumpleanerosSemana.forEach(empleado => {
+    const card = createCardCarousel(empleado, false);
+    carouselSemana.appendChild(card);
 });
 
+// Inicializar Swiper
+new Swiper('.swiper', {
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    slidesPerView: 3,
+    spaceBetween: 20,
+});
+});
 </script>

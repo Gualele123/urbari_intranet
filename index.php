@@ -1,7 +1,10 @@
 <?php
 include 'config.php';
 
-session_start();
+// Verificar si una sesión ya está iniciada antes de iniciar una nueva
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -43,7 +46,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
