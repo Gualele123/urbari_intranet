@@ -71,15 +71,15 @@ if ($role['rol'] === 'admin') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Permisos</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<?php
+  include 'header.php';
+?>
+
+<?php
+  include 'navbar.php';
+?>
+
+
     <div class="container">
         <h1>Gestionar Permisos para el Rol: <?= $role['rol']; ?></h1>
         <form id="permisosForm" method="post" action="save_permissions.php">
@@ -119,9 +119,11 @@ if ($role['rol'] === 'admin') {
                 </tbody>
             </table>
             <input type="hidden" name="role_id" value="<?= $role_id; ?>">
-            <button type="submit" class="btn">Guardar Permisos</button>
-            <a href="admin_page.php" class="btn">Cancelar</a>
+            <button type="submit" class="btn btn-success">Guardar Permisos</button>
+            <a href="admin_page.php" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
-</body>
-</html>
+
+<?php
+  include 'footer.php';
+?>

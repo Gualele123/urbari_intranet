@@ -25,6 +25,8 @@ if (isset($_POST['create_role'])) {
     $estado = $_POST['estado'];
     $create_role = $pdo->prepare("INSERT INTO `roles` (rol, descripcion, estado) VALUES (?, ?, ?)");
     $create_role->execute([$rol, $descripcion, $estado]);
+    header('location:admin_page.php');
+    exit;
 }
 
 if (isset($_POST['update_role'])) {
@@ -34,13 +36,15 @@ if (isset($_POST['update_role'])) {
     $estado = $_POST['estado'];
     $update_role = $pdo->prepare("UPDATE `roles` SET rol = ?, descripcion = ?, estado = ? WHERE id = ?");
     $update_role->execute([$rol, $descripcion, $estado, $update_id]);
+    header('location:admin_page.php');
+    exit;
 }
 
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $delete_role = $pdo->prepare("DELETE FROM `roles` WHERE id = ?");
     $delete_role->execute([$delete_id]);
-    header('location:admin_roles.php');
+    header('location:admin_page.php');
     exit;
 }
 
@@ -66,13 +70,13 @@ if ($select_roles === false) {
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="rolesTableBody">
                 <?php while ($row = $select_roles->fetch(PDO::FETCH_ASSOC)) { ?>
-                <tr>
+                <tr id="role-<?= $row['id']; ?>">
                     <td><?= $row['id']; ?></td>
-                    <td><?= $row['rol']; ?></td>
-                    <td><?= $row['descripcion']; ?></td>
-                    <td><?= $row['estado']; ?></td>
+                    <td class="role-name"><?= $row['rol']; ?></td>
+                    <td class="role-description"><?= $row['descripcion']; ?></td>
+                    <td class="role-status"><?= $row['estado']; ?></td>
                     <td>
                         <a title="Ver e ingresar permisos" href="manage_permissions.php?role_id=<?= $row['id']; ?>" class="btn btn-success"><i class="fa-solid fa-key"></i></a>
                         <button title="Editar rol" class="btn btn-secondary" onclick="editarRol(<?= $row['id']; ?>, '<?= $row['rol']; ?>', '<?= $row['descripcion']; ?>', '<?= $row['estado']; ?>')"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -84,7 +88,7 @@ if ($select_roles === false) {
         </table>
 
         <h2>Crear Nuevo Rol</h2>
-        <form method="post">
+        <form method="post" action="admin_roles.php">
             <input type="text" name="rol" placeholder="Rol" required>
             <input type="text" name="descripcion" placeholder="Descripción" required>
             <input type="text" name="estado" placeholder="Estado" required>
@@ -96,7 +100,7 @@ if ($select_roles === false) {
             <div class="modal-content">
                 <span class="close" onclick="cerrarModalRol()">&times;</span>
                 <h2>Editar Rol</h2>
-                <form id="editRoleForm">
+                <form id="editRoleForm" method="post" action="admin_roles.php">
                     <input type="hidden" name="update_id" id="edit_role_id">
                     <label for="edit_rol">Rol:</label>
                     <input type="text" name="rol" id="edit_rol" required>
@@ -104,31 +108,15 @@ if ($select_roles === false) {
                     <input type="text" name="descripcion" id="edit_descripcion" required>
                     <label for="edit_estado">Estado:</label>
                     <input type="text" name="estado" id="edit_estado" required>
-                    <button type="submit" class="btn">Actualizar Rol</button>
+                    <button type="submit" name="update_role" class="btn">Actualizar Rol</button>
                     <button type="button" class="btn" onclick="cerrarModalRol()">Cancelar</button>
                 </form>
             </div>
         </div>
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
         $(document).ready(function() {
-            // Manejar la edición del rol
-            $('#editRoleForm').submit(function(e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: 'update_role.php',
-                    type: 'POST',
-                    data: formData,
-                    success: function(data) {
-                        alert(data);
-                        cerrarModalRol();
-                        location.reload();
-                    }
-                });
-            });
-
             // Funciones para abrir y cerrar el modal de edición de rol
             window.editarRol = function(id, rol, descripcion, estado) {
                 $('#edit_role_id').val(id);
@@ -144,4 +132,3 @@ if ($select_roles === false) {
         });
         </script>
     </div>
-

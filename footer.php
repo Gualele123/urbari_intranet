@@ -26,6 +26,8 @@
       $('#myTableUsers').DataTable();
       $('#myTableRoles').DataTable();
     } );
+
+   
    </script>
 
    <!-- libreria js externa swiper para carousel -->
