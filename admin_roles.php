@@ -19,6 +19,7 @@ if ($rol !== 'admin') {
     exit;
 }
 
+// Procesar la creación de un nuevo rol
 if (isset($_POST['create_role'])) {
     $rol = $_POST['rol'];
     $descripcion = $_POST['descripcion'];
@@ -29,6 +30,7 @@ if (isset($_POST['create_role'])) {
     exit;
 }
 
+// Procesar la actualización de un rol existente
 if (isset($_POST['update_role'])) {
     $update_id = $_POST['update_id'];
     $rol = $_POST['rol'];
@@ -40,6 +42,7 @@ if (isset($_POST['update_role'])) {
     exit;
 }
 
+// Procesar la eliminación de un rol
 if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $delete_role = $pdo->prepare("DELETE FROM `roles` WHERE id = ?");
@@ -48,6 +51,7 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
+// Seleccionar todos los roles
 $select_roles = $pdo->prepare("SELECT * FROM `roles`");
 $select_roles->execute();
 
@@ -58,8 +62,9 @@ if ($select_roles === false) {
 ?>
 
 
-    <div class="container">
+<div class="container">
         <h1>Administrar Roles</h1>
+        <button class="btn btn-success" onclick="abrirModalCrearRol()">Crear Rol</button> <!-- Botón para abrir el modal -->
         <table id="myTableRoles" class="table table-striped table-bordered table-sm">
             <thead>
                 <tr>
@@ -71,12 +76,14 @@ if ($select_roles === false) {
                 </tr>
             </thead>
             <tbody id="rolesTableBody">
-                <?php while ($row = $select_roles->fetch(PDO::FETCH_ASSOC)) { ?>
+                <?php while ($row = $select_roles->fetch(PDO::FETCH_ASSOC)) { 
+                    $estado_class = $row['estado'] == 'activo' ? 'estado-activo' : 'estado-inactivo';
+                ?>
                 <tr id="role-<?= $row['id']; ?>">
                     <td><?= $row['id']; ?></td>
                     <td class="role-name"><?= $row['rol']; ?></td>
                     <td class="role-description"><?= $row['descripcion']; ?></td>
-                    <td class="role-status"><?= $row['estado']; ?></td>
+                    <td class="role-status"><p class="<?= $estado_class; ?>"><?= $row['estado']; ?></p></td>
                     <td>
                         <a title="Ver e ingresar permisos" href="manage_permissions.php?role_id=<?= $row['id']; ?>" class="btn btn-success"><i class="fa-solid fa-key"></i></a>
                         <button title="Editar rol" class="btn btn-secondary" onclick="editarRol(<?= $row['id']; ?>, '<?= $row['rol']; ?>', '<?= $row['descripcion']; ?>', '<?= $row['estado']; ?>')"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -87,13 +94,26 @@ if ($select_roles === false) {
             </tbody>
         </table>
 
-        <h2>Crear Nuevo Rol</h2>
-        <form method="post" action="admin_roles.php">
-            <input type="text" name="rol" placeholder="Rol" required>
-            <input type="text" name="descripcion" placeholder="Descripción" required>
-            <input type="text" name="estado" placeholder="Estado" required>
-            <button type="submit" name="create_role" class="btn">Crear Rol</button>
-        </form>
+        <!-- Ventana Modal para Crear Rol -->
+        <div id="modalCrearRol" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModalCrearRol()">&times;</span>
+                <h2>Crear Nuevo Rol</h2>
+                <form method="post" action="admin_roles.php">
+                    <label for="create_rol">Rol:</label>
+                    <input class="form-control"  type="text" name="rol" id="create_rol" required>
+                    <label for="create_descripcion">Descripción:</label>
+                    <input class="form-control"  type="text" name="descripcion" id="create_descripcion" required>
+                    <label for="create_estado">Estado:</label>
+                    <select class="form-control" name="estado" id="create_estado" required>
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                    <button type="submit" name="create_role" class="btn btn-success">Crear Rol</button>
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalCrearRol()">Cancelar</button>
+                </form>
+            </div>
+        </div>
 
         <!-- Ventana Modal para Editar Rol -->
         <div id="modalEditarRol" class="modal">
@@ -103,13 +123,16 @@ if ($select_roles === false) {
                 <form id="editRoleForm" method="post" action="admin_roles.php">
                     <input type="hidden" name="update_id" id="edit_role_id">
                     <label for="edit_rol">Rol:</label>
-                    <input type="text" name="rol" id="edit_rol" required>
+                    <input class="form-control" type="text" name="rol" id="edit_rol" required>
                     <label for="edit_descripcion">Descripción:</label>
-                    <input type="text" name="descripcion" id="edit_descripcion" required>
+                    <input class="form-control" type="text" name="descripcion" id="edit_descripcion" required>
                     <label for="edit_estado">Estado:</label>
-                    <input type="text" name="estado" id="edit_estado" required>
-                    <button type="submit" name="update_role" class="btn">Actualizar Rol</button>
-                    <button type="button" class="btn" onclick="cerrarModalRol()">Cancelar</button>
+                    <select class="form-control" name="estado" id="edit_estado" required>
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                    <button type="submit" name="update_role" class="btn btn-success">Actualizar Rol</button>
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalRol()">Cancelar</button>
                 </form>
             </div>
         </div>
@@ -117,6 +140,15 @@ if ($select_roles === false) {
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
         $(document).ready(function() {
+            // Funciones para abrir y cerrar el modal de creación de rol
+            window.abrirModalCrearRol = function() {
+                $('#modalCrearRol').show();
+            };
+
+            window.cerrarModalCrearRol = function() {
+                $('#modalCrearRol').hide();
+            };
+
             // Funciones para abrir y cerrar el modal de edición de rol
             window.editarRol = function(id, rol, descripcion, estado) {
                 $('#edit_role_id').val(id);

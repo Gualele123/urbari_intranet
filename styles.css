@@ -1017,14 +1017,40 @@
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
     padding-top: 60px;
+    /* border: 1px solid red; */
 }
 
-.modal-content {
+.modal .modal-content {
     background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
+    margin: 2% auto;
+    padding: 18px;
     border: 1px solid #888;
-    width: 80%;
+    width: 40%;
+    /* height: 100%;
+    max-height: 26rem; */
+    /* border: 3px solid rgb(71, 251, 65); */
+}
+
+.modal .modal-content h2 {
+    text-align: center;
+}
+
+.modal .modal-content form {
+    /* position: relative; */
+}
+
+.modal .modal-content form label {
+    text-align: left;
+}
+
+.modal .modal-content form button {
+    position: relative;
+    left: 11rem;
+}
+
+.modal .modal-content form input,
+.modal .modal-content form select {
+    margin-bottom: 15px;
 }
 
 .close {
@@ -1080,7 +1106,7 @@
 } */
 
 /* Estilos para el formulario */
-form input[type="text"], form input[type="password"], form input[type="email"], form select {
+/* form input[type="text"], form input[type="password"], form input[type="email"], form select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -1103,7 +1129,7 @@ form button[type="submit"], form button[type="button"] {
 
 form button[type="submit"]:hover, form button[type="button"]:hover {
     background-color: #45a049;
-}
+} */
 
 /* estilos para los checbox -------------------------*/
 .switch {
@@ -1150,6 +1176,30 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* estado de los roles */
+.estado-activo {
+    border: 1px solid rgb(205, 255, 164);
+    color: rgb(255, 255, 255);
+    background-color: rgba(75, 147, 75, 0.743);
+    border-radius: 10px;
+    text-align: center;
+    padding: 3px;
+    width: 100px;
+    margin: 0 auto;
+}
+
+.estado-inactivo {
+    border: 1px solid rgba(255, 72, 72, 0.81);
+    background-color: rgba(200, 59, 59, 0.564);
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+    padding: 3px;
+    width: 100px;
+    margin: 0 auto;
+}
+
 
 
 

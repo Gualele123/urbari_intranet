@@ -23,6 +23,7 @@ $select_users = $pdo->prepare("SELECT users.id, users.name, users.email, users.i
 $select_users->execute();
 ?>
 
+
     <div class="container">
         <h1>Administrar Usuarios</h1>
         <table id="myTableUsers" class="table table-striped table-bordered table-sm">
@@ -45,7 +46,7 @@ $select_users->execute();
                     <td><?= $row['rol']; ?></td>
                     <td><img class='img-thumbnail' src='uploaded_img/<?= $row['image']; ?>' alt='' width='50'></td>
                     <td>
-                        <button class='btn btn-secondary' onclick="editarUsuario(<?= $row['id']; ?>, '<?= $row['name']; ?>', '<?= $row['email']; ?>', '<?= $row['rol']; ?>', '<?= $row['image']; ?>')"><i class='fa-solid fa-pen-to-square'></i></button>
+                        <button class='btn btn-secondary' onclick="editarUsuario(<?= $row['id']; ?>, '<?= $row['name']; ?>', '<?= $row['email']; ?>', '<?= $row['rol']; ?>', 'uploaded_img/<?= $row['image']; ?>')"><i class='fa-solid fa-pen-to-square'></i></button>
                         <button class='btn btn-danger' onclick="eliminarUsuario(<?= $row['id']; ?>)"><i class='fa-solid fa-trash'></i></button>
                     </td>
                 </tr>
@@ -60,39 +61,40 @@ $select_users->execute();
             <span class="close" onclick="cerrarModal()">&times;</span>
             <h2>Editar Usuario</h2>
             <form id="editUserForm" enctype="multipart/form-data">
-                <input type="hidden" name="update_id" id="edit_id">
+                <input class="form-control" type="hidden" name="update_id" id="edit_id">
                 <label for="name">Nombre:</label>
-                <input type="text" name="name" id="edit_name" required>
+                <input class="form-control" type="text" name="name" id="edit_name" required>
                 <label for="email">Email:</label>
-                <input type="email" name="email" id="edit_email" required>
+                <input class="form-control" type="email" name="email" id="edit_email" required>
                 <label for="rol">Rol:</label>
-                <select name="rol" id="edit_user_type" required>
+                <select class="form-control" name="rol" id="edit_user_type" required>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                     <option value="colaborador">Colaborador</option>
                     <option value="recursos humanos">Recursos Humanos</option>
                 </select>
                 <label for="image">Imagen:</label>
-                <input type="file" name="image" id="edit_image" accept="image/*">
-                <button type="submit" class="btn">Actualizar Usuario</button>
+                <input class="form-control" type="file" name="image" id="edit_image" accept="image/*">
+                <button type="submit" class="btn btn-success">Actualizar Usuario</button>
             </form>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     $(document).ready(function() {
         // Función para abrir el modal de edición
         window.editarUsuario = function(id, name, email, rol, image) {
-            document.getElementById('edit_id').value = id;
-            document.getElementById('edit_name').value = name;
-            document.getElementById('edit_email').value = email;
-            document.getElementById('edit_user_type').value = rol;
-            document.getElementById('modalEditarUsuario').style.display = 'block';
+            $('#edit_id').val(id);
+            $('#edit_name').val(name);
+            $('#edit_email').val(email);
+            $('#edit_user_type').val(rol);
+            $('#modalEditarUsuario').show();
         }
 
         // Función para cerrar el modal de edición
         window.cerrarModal = function() {
-            document.getElementById('modalEditarUsuario').style.display = 'none';
+            $('#modalEditarUsuario').hide();
         }
 
         // Manejar la actualización del usuario mediante AJAX
@@ -130,3 +132,4 @@ $select_users->execute();
         }
     });
     </script>
+
