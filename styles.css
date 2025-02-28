@@ -1016,16 +1016,16 @@
     overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
-    padding-top: 60px;
+    padding-top: 46px;
     /* border: 1px solid red; */
 }
 
 .modal .modal-content {
     background-color: #fefefe;
     margin: 2% auto;
-    padding: 18px;
+    padding: 15px;
     border: 1px solid #888;
-    width: 40%;
+    width: 60%;
     /* height: 100%;
     max-height: 26rem; */
     /* border: 3px solid rgb(71, 251, 65); */
@@ -1045,7 +1045,7 @@
 
 .modal .modal-content form button {
     position: relative;
-    left: 11rem;
+    left: 20rem;
 }
 
 .modal .modal-content form input,
@@ -1065,6 +1065,24 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+}
+
+.modal-body .left-column {
+    flex: 0 0 55%;
+}
+
+.modal-body .left-column img {
+    width: 100%;
+    max-width: 390px;
+}
+
+.modal-body .right-column {
+    flex: 0 0 45%;
+    margin-left: 25px;
 }
 
 /* Estilos para la tabla */

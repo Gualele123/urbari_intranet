@@ -23,7 +23,6 @@ $select_users = $pdo->prepare("SELECT users.id, users.name, users.email, users.i
 $select_users->execute();
 ?>
 
-
     <div class="container">
         <h1>Administrar Usuarios</h1>
         <table id="myTableUsers" class="table table-striped table-bordered table-sm">
@@ -46,6 +45,7 @@ $select_users->execute();
                     <td><?= $row['rol']; ?></td>
                     <td><img class='img-thumbnail' src='uploaded_img/<?= $row['image']; ?>' alt='' width='50'></td>
                     <td>
+                        <button class='btn btn-primary' onclick="verImagen(<?= $row['id']; ?>, 'uploaded_img/<?= $row['image']; ?>', '<?= $row['name']; ?>', '<?= $row['email']; ?>', '<?= $row['rol']; ?>')"><i class='fa-solid fa-eye'></i></button>
                         <button class='btn btn-secondary' onclick="editarUsuario(<?= $row['id']; ?>, '<?= $row['name']; ?>', '<?= $row['email']; ?>', '<?= $row['rol']; ?>', 'uploaded_img/<?= $row['image']; ?>')"><i class='fa-solid fa-pen-to-square'></i></button>
                         <button class='btn btn-danger' onclick="eliminarUsuario(<?= $row['id']; ?>)"><i class='fa-solid fa-trash'></i></button>
                     </td>
@@ -53,6 +53,25 @@ $select_users->execute();
                 <?php } ?>
             </tbody>
         </table>
+    </div>
+
+    <!-- Modal para Ver Imagen -->
+    <div id="modalVerImagen" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalVerImagen()">&times;</span>
+            <div class="modal-body">
+                <div class="left-column">
+                    <img id="imagenUsuario" class='img-thumbnail' src='' alt=''>
+                </div>
+                <div class="right-column">
+                    <h2>Detalles del Usuario</h2>
+                    <p><strong>ID:</strong> <span id="detalleID"></span></p>
+                    <p><strong>Nombre:</strong> <span id="detalleNombre"></span></p>
+                    <p><strong>Email:</strong> <span id="detalleEmail"></span></p>
+                    <p><strong>Rol:</strong> <span id="detalleRol"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal para Editar Usuario -->
@@ -75,7 +94,7 @@ $select_users->execute();
                 </select>
                 <label for="image">Imagen:</label>
                 <input class="form-control" type="file" name="image" id="edit_image" accept="image/*">
-                <button type="submit" class="btn btn-success">Actualizar Usuario</button>
+                <button type="submit" class="btn btn-success btn-editusuario">Actualizar Usuario</button>
             </form>
         </div>
     </div>
@@ -83,6 +102,21 @@ $select_users->execute();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     $(document).ready(function() {
+        // Función para abrir el modal de ver imagen
+        window.verImagen = function(id, image, name, email, rol) {
+            $('#detalleID').text(id);
+            $('#detalleNombre').text(name);
+            $('#detalleEmail').text(email);
+            $('#detalleRol').text(rol);
+            $('#imagenUsuario').attr('src', image);
+            $('#modalVerImagen').show();
+        }
+
+        // Función para cerrar el modal de ver imagen
+        window.cerrarModalVerImagen = function() {
+            $('#modalVerImagen').hide();
+        }
+
         // Función para abrir el modal de edición
         window.editarUsuario = function(id, name, email, rol, image) {
             $('#edit_id').val(id);
@@ -132,4 +166,3 @@ $select_users->execute();
         }
     });
     </script>
-
