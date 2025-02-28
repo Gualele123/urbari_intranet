@@ -13,6 +13,12 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(['id' => $id]);
 $contact = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Obtener todos los colaboradores para el select
+$sql = "SELECT * FROM colaboradores";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$colaboradores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 if (!$contact) {
     die('Contacto no encontrado');
 }
@@ -27,22 +33,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'];
     $contacto = $_POST['contacto'];
     $id_area = $_POST['id_area'];
+    $id_colaborador = $_POST['id_colaborador'];
+
 
     // Verificar si se subió una nueva foto
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
-        $foto = file_get_contents($_FILES['foto']['tmp_name']);
-        $sql = "UPDATE contactos SET foto = :foto, nombre = :nombre, contacto = :contacto, 
-                id_area = :id_area WHERE id = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['foto' => $foto, 'nombre' => $nombre, 'contacto' => $contacto, 
-                        'id_area' => $id_area, 'id' => $id]);
-    } else {
-        $sql = "UPDATE contactos SET nombre = :nombre, contacto = :contacto, 
-                id_area = :id_area WHERE id = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['nombre' => $nombre, 'contacto' => $contacto, 
-                        'id_area' => $id_area, 'id' => $id]);
-    }
+      $foto = file_get_contents($_FILES['foto']['tmp_name']);
+      $sql = "UPDATE contactos SET foto = :foto, nombre = :nombre, contacto = :contacto, id_area = :id_area, id_colaborador = :id_colaborador WHERE id = :id";
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute(['foto' => $foto, 'nombre' => $nombre, 'contacto' => $contacto, 'id_area' => $id_area, 'id_colaborador' => $id_colaborador, 'id' => $id]);
+  } else {
+      $sql = "UPDATE contactos SET nombre = :nombre, contacto = :contacto, id_area = :id_area, id_colaborador = :id_colaborador WHERE id = :id";
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute(['nombre' => $nombre, 'contacto' => $contacto, 'id_area' => $id_area, 'id_colaborador' => $id_colaborador, 'id' => $id]);
+  }
 
     header('Location: admin_page.php');
     exit();
@@ -72,28 +76,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div class="col-6">
       <h1>Editar Contacto</h1>
-    <form action="editarcontacto.php?id=<?= $contact['id']; ?>" method="POST" enctype="multipart/form-data">
-        <label for="nombre">Nombre del Contacto:</label>
-        <input  class="form-control" type="text" id="nombre" name="nombre" value="<?= $contact['nombre']; ?>" required> <br>
+      // Formulario de edición de contacto
+<form action="editarcontacto.php?id=<?= $contact['id']; ?>" method="POST" enctype="multipart/form-data">
+    <label for="nombre">Nombre del Contacto:</label>
+    <input  class="form-control" type="text" id="nombre" name="nombre" value="<?= $contact['nombre']; ?>" required><br><br>
 
-        <label for="contacto">Contacto:</label>
-        <input  class="form-control" type="text" id="contacto" name="contacto" value="<?= $contact['contacto']; ?>" required> <br>
+    <label for="contacto">Contacto:</label>
+    <input  class="form-control" type="text" id="contacto" name="contacto" value="<?= $contact['contacto']; ?>" required><br><br>
 
-        <label for="id_area">Área:</label>
-        <select  class="form-control" name="id_area" id="id_area" required>
-            <?php foreach ($areas as $area): ?>
-                <option value="<?= $area['id']; ?>" <?= $area['id'] == $contact['id_area'] ? 'selected' : ''; ?>>
-                    <?= $area['nombre']; ?>
-                </option>
-            <?php endforeach; ?>
-        </select> <br>
+    <label for="id_area">Área:</label>
+    <select  class="form-control" name="id_area" id="id_area" required>
+        <?php foreach ($areas as $area): ?>
+            <option value="<?= $area['id']; ?>" <?= $area['id'] == $contact['id_area'] ? 'selected' : ''; ?>>
+                <?= $area['nombre']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-        <label for="foto">Foto (deja en blanco para mantener la actual):</label>
-        <input  class="form-control" type="file" id="foto" name="foto" accept="image/*"> <br>
+    <label for="id_colaborador">Colaborador:</label>
+    <select class="form-control" name="id_colaborador" id="id_colaborador" required>
+        <?php foreach ($colaboradores as $colaborador): ?>
+            <option value="<?= $colaborador['id']; ?>" <?= $colaborador['id'] == $contact['id_colaborador'] ? 'selected' : ''; ?>>
+                <?= $colaborador['nombre']; ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
 
-        <button class="btn btn-primary" type="submit">Actualizar</button>
-        <a class="btn btn-secondary" href="admin_page.php">Volver</a>
-    </form>
+    <label for="foto">Foto (deja en blanco para mantener la actual):</label>
+    <input  class="form-control" type="file" id="foto" name="foto" accept="image/*"><br><br>
+
+    <button class="btn btn-primary" type="submit">Actualizar</button>
+    <a class="btn btn-secondary" href="admin_page.php">Volver</a>
+</form>
       </div>
       <div class="col">
       </div>
