@@ -6,13 +6,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$showToast = false;
+$showAlert = false;
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
-    $name = filter_var($name, FILTER_SANITIZE_STRING);
+    $name = filter_var($name, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $pass = md5($_POST['pass']);
-    $pass = filter_var($pass, FILTER_SANITIZE_STRING);
+    $pass = filter_var($pass, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     // Consulta para verificar el usuario y obtener el estado del rol
     $select = $pdo->prepare("SELECT users.*, roles.estado as rol_estado, roles.rol as rol_nombre 
@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
             }
         } else {
             // Mostrar mensaje de error si el rol está inactivo
-            $showToast = true;
+            $showAlert = true;
         }
     } else {
         $message[] = 'Email o contraseña incorrecta!';
@@ -66,7 +66,8 @@ if (isset($_POST['submit'])) {
     <!-- mi css -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/logo.png">
-    
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
     <?php if(isset($message)) { foreach($message as $message) { echo ' <div class="message"> <span>'.$message.'</span> <i class="fas fa-times" onclick="this.parentElement.remove();"></i> </div>'; } } ?>
@@ -79,35 +80,17 @@ if (isset($_POST['submit'])) {
         </form>
     </section>
 
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 right-0 p-3" style="z-index: 5">
-        <div id="toastInactivo" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="mr-auto">Error</strong>
-                <small>Ahora</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Su rol está inactivo. No tiene permiso para acceder al sistema.
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            <?php if($showToast): ?>
-                $('#toastInactivo').toast({ delay: 5000 });
-                $('#toastInactivo').toast('show');
-            <?php endif; ?>
-        });
+        <?php if($showAlert): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Su rol está inactivo. No tiene permiso para acceder al sistema.'
+            });
+        <?php endif; ?>
     </script>
 </body>
 </html>
