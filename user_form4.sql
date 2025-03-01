@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 01-03-2025 a las 00:47:46
+-- Tiempo de generación: 01-03-2025 a las 22:24:46
 -- Versión del servidor: 11.3.2-MariaDB
 -- Versión de PHP: 8.3.6
 
@@ -250,8 +250,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 INSERT INTO `roles` (`id`, `rol`, `descripcion`, `estado`) VALUES
 (1, 'admin', 'todos los permisos', 'activo'),
-(2, 'user', 'solo algunos permisos hola', 'inactivo'),
-(3, 'colaborador', 'solo algunos permisos s', 'activo'),
+(2, 'user', 'solo algunos permisos hola', 'activo'),
+(3, 'colaborador', 'solo algunos permisos s', 'inactivo'),
 (4, 'recursos humanos', 'solo algunos permisos', 'activo');
 
 -- --------------------------------------------------------
@@ -483,6 +483,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `rol_id` int(11) NOT NULL,
+  `estado` varchar(10) DEFAULT 'activo',
   PRIMARY KEY (`id`),
   KEY `fk_rol` (`rol_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -491,11 +492,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `image`, `rol_id`) VALUES
-(23, 'mau', 'mau@gmail.com', '202cb962ac59075b964b07152d234b70', 'usuario.png', 2),
-(22, 'admin', 'admin@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-1.jpg', 1),
-(24, 'maria 333', 'maria@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-6.jpg', 3),
-(25, 'carla', 'carla@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-2.jpg', 4);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `image`, `rol_id`, `estado`) VALUES
+(23, 'mau', 'mau@gmail.com', '202cb962ac59075b964b07152d234b70', 'usuario.png', 3, 'inactivo'),
+(22, 'admin', 'admin@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-1.jpg', 1, 'activo'),
+(24, 'maria', 'maria@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-6.jpg', 3, 'inactivo'),
+(25, 'carla', 'carla@gmail.com', '202cb962ac59075b964b07152d234b70', 'user-2.jpg', 4, 'activo');
 
 --
 -- Restricciones para tablas volcadas
