@@ -6,7 +6,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$showAlert = false;
+$showUserInactiveAlert = false;
+$showRoleInactiveAlert = false;
+$showBothInactiveAlert = false;
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -23,8 +25,20 @@ if (isset($_POST['submit'])) {
     $row = $select->fetch(PDO::FETCH_ASSOC);
 
     if ($select->rowCount() > 0) {
-        // Verificar si el rol del usuario está activo
-        if ($row['rol_estado'] == 'activo') {
+        // Verificar si el usuario está inactivo
+        if ($row['estado'] == 'inactivo') {
+            // Verificar si también el rol del usuario está inactivo
+            if ($row['rol_estado'] == 'inactivo') {
+                // Mostrar mensaje de error si ambos, usuario y rol, están inactivos
+                $showBothInactiveAlert = true;
+            } else {
+                // Mostrar mensaje de error si solo el usuario está inactivo
+                $showUserInactiveAlert = true;
+            }
+        } elseif ($row['rol_estado'] == 'inactivo') {
+            // Mostrar mensaje de error si solo el rol está inactivo
+            $showRoleInactiveAlert = true;
+        } else {
             // Establecer variables de sesión
             $_SESSION['rol'] = $row['rol_nombre'];
             $_SESSION['user_id'] = $row['id'];
@@ -45,9 +59,6 @@ if (isset($_POST['submit'])) {
                 default:
                     $message[] = 'Usuario no encontrado!';
             }
-        } else {
-            // Mostrar mensaje de error si el rol está inactivo
-            $showAlert = true;
         }
     } else {
         $message[] = 'Email o contraseña incorrecta!';
@@ -84,11 +95,27 @@ if (isset($_POST['submit'])) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <script>
-        <?php if($showAlert): ?>
+        <?php if($showUserInactiveAlert): ?>
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Su rol está inactivo. No tiene permiso para acceder al sistema.'
+                text: 'Su cuenta de usuario está inactiva. No tiene permiso para acceder al sistema.'
+            });
+        <?php endif; ?>
+
+        <?php if($showRoleInactiveAlert): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'El rol asociado a su cuenta está inactivo. No tiene permiso para acceder al sistema.'
+            });
+        <?php endif; ?>
+
+        <?php if($showBothInactiveAlert): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Tanto su cuenta de usuario como el rol asociado están inactivos. No tiene permiso para acceder al sistema.'
             });
         <?php endif; ?>
     </script>

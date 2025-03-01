@@ -26,18 +26,20 @@ if (isset($_POST['create_role'])) {
     $estado = $_POST['estado'];
     $create_role = $pdo->prepare("INSERT INTO `roles` (rol, descripcion, estado) VALUES (?, ?, ?)");
     $create_role->execute([$rol, $descripcion, $estado]);
-    header('location:admin_page.php');
+    header('location:admin_roles.php');
     exit;
 }
 
 // Procesar la actualización de un rol existente
-if (isset($_POST['update_role'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
     $update_id = $_POST['update_id'];
     $rol = $_POST['rol'];
     $descripcion = $_POST['descripcion'];
     $estado = $_POST['estado'];
+
     $update_role = $pdo->prepare("UPDATE `roles` SET rol = ?, descripcion = ?, estado = ? WHERE id = ?");
     $update_role->execute([$rol, $descripcion, $estado, $update_id]);
+
     header('location:admin_page.php');
     exit;
 }
@@ -47,7 +49,7 @@ if (isset($_GET['delete'])) {
     $delete_id = $_GET['delete'];
     $delete_role = $pdo->prepare("DELETE FROM `roles` WHERE id = ?");
     $delete_role->execute([$delete_id]);
-    header('location:admin_page.php');
+    header('location:admin_roles.php');
     exit;
 }
 
@@ -62,7 +64,7 @@ if ($select_roles === false) {
 ?>
 
 
-<div class="container">
+    <div class="container">
         <h1>Administrar Roles</h1>
         <button class="btn btn-success" onclick="abrirModalCrearRol()">Crear Rol</button> <!-- Botón para abrir el modal -->
         <table id="myTableRoles" class="table table-striped table-bordered table-sm">
@@ -121,15 +123,15 @@ if ($select_roles === false) {
                 <span class="close" onclick="cerrarModalRol()">&times;</span>
                 <h2>Editar Rol</h2>
                 <form id="editRoleForm" method="post" action="admin_roles.php">
-                    <input type="hidden" name="update_id" id="edit_role_id">
+                    <input class="form-control" type="hidden" name="update_id" id="edit_role_id">
                     <label for="edit_rol">Rol:</label>
                     <input class="form-control" type="text" name="rol" id="edit_rol" required>
                     <label for="edit_descripcion">Descripción:</label>
                     <input class="form-control" type="text" name="descripcion" id="edit_descripcion" required>
                     <label for="edit_estado">Estado:</label>
                     <select class="form-control" name="estado" id="edit_estado" required>
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
+                        <option value="activo" id="option_activo">Activo</option>
+                        <option value="inactivo" id="option_inactivo">Inactivo</option>
                     </select>
                     <button type="submit" name="update_role" class="btn btn-success">Actualizar Rol</button>
                     <button type="button" class="btn btn-secondary" onclick="cerrarModalRol()">Cancelar</button>
@@ -155,6 +157,14 @@ if ($select_roles === false) {
                 $('#edit_rol').val(rol);
                 $('#edit_descripcion').val(descripcion);
                 $('#edit_estado').val(estado);
+                
+                // Asegurarnos de que la opción correcta esté seleccionada
+                if (estado === 'activo') {
+                    $('#option_activo').prop('selected', true);
+                } else if (estado === 'inactivo') {
+                    $('#option_inactivo').prop('selected', true);
+                }
+                
                 $('#modalEditarRol').show();
             };
 
@@ -164,3 +174,4 @@ if ($select_roles === false) {
         });
         </script>
     </div>
+
